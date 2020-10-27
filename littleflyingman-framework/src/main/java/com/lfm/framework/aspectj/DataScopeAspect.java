@@ -1,0 +1,170 @@
+package com.lfm.framework.aspectj;
+
+import com.lfm.common.annotation.DataScope;
+import com.lfm.common.core.domain.BaseEntity;
+import com.lfm.common.core.domain.entity.SysRole;
+import com.lfm.common.core.domain.entity.SysUser;
+import com.lfm.common.core.domain.model.LoginUser;
+import com.lfm.common.utils.ServletUtils;
+import com.lfm.common.utils.StringUtils;
+import com.lfm.common.utils.spring.SpringUtils;
+import com.lfm.framework.web.service.TokenService;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Method;
+
+/**
+ * 数据过滤处理
+ *
+ *
+ */
+@Aspect
+@Component
+public class DataScopeAspect
+{
+    /**
+     * 全部数据权限
+     */
+    public static final String DATA_SCOPE_ALL = "1";
+
+    /**
+     * 自定数据权限
+     */
+    public static final String DATA_SCOPE_CUSTOM = "2";
+
+    /**
+     * 学院数据权限
+     */
+    public static final String DATA_SCOPE_DEPT = "3";
+
+    /**
+     * 学院及以下数据权限
+     */
+    public static final String DATA_SCOPE_DEPT_AND_CHILD = "4";
+
+    /**
+     * 仅本人数据权限
+     */
+    public static final String DATA_SCOPE_SELF = "5";
+
+    /**
+     * 数据权限过滤关键字
+     */
+    public static final String DATA_SCOPE = "dataScope";
+
+    // 配置织入点
+    @Pointcut("@annotation(com.lfm.common.annotation.DataScope)")
+    public void dataScopePointCut()
+    {
+    }
+
+    @Before("dataScopePointCut()")
+    public void doBefore(JoinPoint point) throws Throwable
+    {
+        handleDataScope(point);
+    }
+
+    protected void handleDataScope(final JoinPoint joinPoint)
+    {
+        // 获得注解
+        DataScope controllerDataScope = getAnnotationLog(joinPoint);
+        if (controllerDataScope == null)
+        {
+            return;
+        }
+        // 获取当前的用户
+        LoginUser loginUser = SpringUtils.getBean(TokenService.class).getLoginUser(ServletUtils.getRequest());
+        if (StringUtils.isNotNull(loginUser))
+        {
+            SysUser currentUser = loginUser.getUser();
+            // 如果是超级管理员，则不过滤数据
+            if (StringUtils.isNotNull(currentUser) && !currentUser.isAdmin())
+            {
+                dataScopeFilter(joinPoint, currentUser, controllerDataScope.collegeAlias(),
+                        controllerDataScope.userAlias());
+            }
+        }
+    }
+
+    /**
+     * 数据范围过滤
+     *
+     * @param joinPoint 切点
+     * @param user 用户
+     * @param userAlias 别名
+     */
+    public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String collegeAlias, String userAlias)
+    {
+        StringBuilder sqlString = new StringBuilder();
+
+        for (SysRole role : user.getRoles())
+        {
+            String dataScope = role.getDataScope();
+            if (DATA_SCOPE_ALL.equals(dataScope))
+            {
+                sqlString = new StringBuilder();
+                break;
+            }
+            else if (DATA_SCOPE_CUSTOM.equals(dataScope))
+            {
+                sqlString.append(StringUtils.format(
+                        " OR {}.college_id IN ( SELECT college_id FROM sys_role_college WHERE role_id = {} ) ", collegeAlias,
+                        role.getRoleId()));
+            }
+            else if (DATA_SCOPE_DEPT.equals(dataScope))
+            {
+                sqlString.append(StringUtils.format(" OR {}.college_id = {} ", collegeAlias, user.getCollegeId()));
+            }
+            else if (DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope))
+            {
+                sqlString.append(StringUtils.format(
+                        " OR {}.college_id IN ( SELECT college_id FROM sys_college WHERE college_id = {} or find_in_set( {} , ancestors ) )",
+                        collegeAlias, user.getCollegeId(), user.getCollegeId()));
+            }
+            else if (DATA_SCOPE_SELF.equals(dataScope))
+            {
+                if (StringUtils.isNotBlank(userAlias))
+                {
+                    sqlString.append(StringUtils.format(" OR {}.user_id = {} ", userAlias, user.getUserId()));
+                }
+                else
+                {
+                    // 数据权限为仅本人且没有userAlias别名不查询任何数据
+                    sqlString.append(" OR 1=0 ");
+                }
+            }
+        }
+
+        if (StringUtils.isNotBlank(sqlString.toString()))
+        {
+            Object params = joinPoint.getArgs()[0];
+            if (StringUtils.isNotNull(params) && params instanceof BaseEntity)
+            {
+                BaseEntity baseEntity = (BaseEntity) params;
+                baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
+            }
+        }
+    }
+
+    /**
+     * 是否存在注解，如果存在就获取
+     */
+    private DataScope getAnnotationLog(JoinPoint joinPoint)
+    {
+        Signature signature = joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method method = methodSignature.getMethod();
+
+        if (method != null)
+        {
+            return method.getAnnotation(DataScope.class);
+        }
+        return null;
+    }
+}
