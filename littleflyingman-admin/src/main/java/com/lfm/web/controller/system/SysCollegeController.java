@@ -9,6 +9,8 @@ import com.lfm.common.enums.BusinessType;
 import com.lfm.common.utils.SecurityUtils;
 import com.lfm.common.utils.StringUtils;
 import com.lfm.system.service.ISysCollegeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,7 @@ import java.util.List;
  * 
  *
  */
+@Api("学院信息管理")
 @RestController
 @RequestMapping("/system/college")
 public class SysCollegeController extends BaseController
@@ -33,7 +36,8 @@ public class SysCollegeController extends BaseController
     /**
      * 获取学校列表
      */
-    @PreAuthorize("@ss.hasPermi('system:college:shoolList')")
+    @ApiOperation("获取学校列表")
+//    @PreAuthorize("@ss.hasPermi('system:college:shoolList')")
     @GetMapping("/shoolList")
     public AjaxResult shoollist(SysCollege college)
     {

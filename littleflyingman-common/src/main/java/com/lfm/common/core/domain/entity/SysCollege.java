@@ -24,6 +24,9 @@ public class SysCollege extends BaseEntity
     /** 学校ID */
     private Long parentId;
 
+    /** 祖级列表 */
+    private String ancestors;
+
     /** 学院名称 */
     private String collegeName;
 
@@ -102,6 +105,16 @@ public class SysCollege extends BaseEntity
         this.delFlag = delFlag;
     }
 
+    public String getAncestors()
+    {
+        return ancestors;
+    }
+
+    public void setAncestors(String ancestors)
+    {
+        this.ancestors = ancestors;
+    }
+
     public List<SysCollege> getChildren()
     {
         return children;
@@ -117,6 +130,7 @@ public class SysCollege extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("collegeId", getCollegeId())
             .append("parentId", getParentId())
+            .append("ancestors", getAncestors())
             .append("collegeName", getCollegeName())
             .append("orderNum", getOrderNum())
             .append("status", getStatus())
