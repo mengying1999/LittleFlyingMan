@@ -37,7 +37,7 @@ public class SysCollegeController extends BaseController
      * 获取学校列表
      */
     @ApiOperation("获取学校列表")
-//    @PreAuthorize("@ss.hasPermi('system:college:shoolList')")
+    @PreAuthorize("@ss.hasPermi('system:college:shoolList')")
     @GetMapping("/shoolList")
     public AjaxResult shoollist(SysCollege college)
     {
@@ -71,8 +71,8 @@ public class SysCollegeController extends BaseController
         while (it.hasNext())
         {
             SysCollege d = (SysCollege) it.next();
-            if (d.getCollegeId().intValue() == collegeId)
-//                    || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), collegeId + ""))
+            if (d.getCollegeId().intValue() == collegeId
+                    || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), collegeId + ""))
             {
                 it.remove();
             }
@@ -129,30 +129,30 @@ public class SysCollegeController extends BaseController
         return toAjax(collegeService.insertCollege(college));
     }
 
-//    /**
-//     * 修改学院
-//     */
-//    @PreAuthorize("@ss.hasPermi('system:college:edit')")
-//    @Log(title = "学院管理", businessType = BusinessType.UPDATE)
-//    @PutMapping
-//    public AjaxResult edit(@Validated @RequestBody SysCollege college)
-//    {
-//        if (UserConstants.NOT_UNIQUE.equals(collegeService.checkCollegeNameUnique(college)))
-//        {
-//            return AjaxResult.error("修改学院'" + college.getCollegeName() + "'失败，学院名称已存在");
-//        }
-//        else if (college.getParentId().equals(college.getCollegeId()))
-//        {
-//            return AjaxResult.error("修改学院'" + college.getCollegeName() + "'失败，上级学院不能是自己");
-//        }
-//        else if (StringUtils.equals(UserConstants.DEPT_DISABLE, college.getStatus())
-//                && collegeService.selectNormalChildrenCollegeById(college.getCollegeId()) > 0)
-//        {
-//            return AjaxResult.error("该学院包含未停用的子学院！");
-//        }
-//        college.setUpdateBy(SecurityUtils.getUsername());
-//        return toAjax(collegeService.updateCollege(college));
-//    }
+    /**
+     * 修改学院
+     */
+    @PreAuthorize("@ss.hasPermi('system:college:edit')")
+    @Log(title = "学院管理", businessType = BusinessType.UPDATE)
+    @PutMapping
+    public AjaxResult edit(@Validated @RequestBody SysCollege college)
+    {
+        if (UserConstants.NOT_UNIQUE.equals(collegeService.checkCollegeNameUnique(college)))
+        {
+            return AjaxResult.error("修改学院'" + college.getCollegeName() + "'失败，学院名称已存在");
+        }
+        else if (college.getParentId().equals(college.getCollegeId()))
+        {
+            return AjaxResult.error("修改学院'" + college.getCollegeName() + "'失败，上级学院不能是自己");
+        }
+        else if (StringUtils.equals(UserConstants.DEPT_DISABLE, college.getStatus())
+                && collegeService.selectNormalChildrenCollegeById(college.getCollegeId()) > 0)
+        {
+            return AjaxResult.error("该学院包含未停用的子学院！");
+        }
+        college.setUpdateBy(SecurityUtils.getUsername());
+        return toAjax(collegeService.updateCollege(college));
+    }
 
     /**
      * 删除学院

@@ -59,7 +59,7 @@ public interface ISysCollegeService
      * @param collegeId 学院ID
      * @return 子学院数
      */
-//    public int selectNormalChildrenCollegeById(Long collegeId);
+    public int selectNormalChildrenCollegeById(Long collegeId);
 
     /**
      * 是否存在学院子节点
@@ -99,7 +99,7 @@ public interface ISysCollegeService
      * @param college 学院信息
      * @return 结果
      */
-//    public int updateCollege(SysCollege college);
+    public int updateCollege(SysCollege college);
 
     /**
      * 删除学院管理信息

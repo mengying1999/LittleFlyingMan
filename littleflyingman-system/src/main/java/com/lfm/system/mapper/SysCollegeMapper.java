@@ -51,7 +51,7 @@ public interface SysCollegeMapper
      * @param collegeId 学院ID
      * @return 子学院数
      */
-//    public int selectNormalChildrenCollegeById(Long collegeId);
+    public int selectNormalChildrenCollegeById(Long collegeId);
 
     /**
      * 是否存在子节点
@@ -107,7 +107,7 @@ public interface SysCollegeMapper
      * @param colleges 子元素
      * @return 结果
      */
-//    public int updateCollegeChildren(@Param("colleges") List<SysCollege> colleges);
+    public int updateCollegeChildren(@Param("colleges") List<SysCollege> colleges);
 
     /**
      * 删除学院管理信息

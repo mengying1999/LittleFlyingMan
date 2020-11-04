@@ -115,17 +115,17 @@ public class SysCollegeServiceImpl implements ISysCollegeService
         return collegeMapper.selectCollegeById(collegeId);
     }
 
-//    /**
-//     * 根据ID查询所有子学院（正常状态）
-//     *
-//     * @param collegeId 学院ID
-//     * @return 子学院数
-//     */
-//    @Override
-//    public int selectNormalChildrenCollegeById(Long collegeId)
-//    {
-//        return collegeMapper.selectNormalChildrenCollegeById(collegeId);
-//    }
+    /**
+     * 根据ID查询所有子学院（正常状态）
+     *
+     * @param collegeId 学院ID
+     * @return 子学院数
+     */
+    @Override
+    public int selectNormalChildrenCollegeById(Long collegeId)
+    {
+        return collegeMapper.selectNormalChildrenCollegeById(collegeId);
+    }
 
     /**
      * 是否存在子节点
@@ -196,26 +196,26 @@ public class SysCollegeServiceImpl implements ISysCollegeService
      * @param college 学院信息
      * @return 结果
      */
-//    @Override
-//    public int updateCollege(SysCollege college)
-//    {
-//        SysCollege newParentCollege = collegeMapper.selectCollegeById(college.getParentId());
-//        SysCollege oldCollege = collegeMapper.selectCollegeById(college.getCollegeId());
-//        if (StringUtils.isNotNull(newParentCollege) && StringUtils.isNotNull(oldCollege))
-//        {
-//            String newAncestors = newParentCollege.getAncestors() + "," + newParentCollege.getCollegeId();
-//            String oldAncestors = oldCollege.getAncestors();
-//            college.setAncestors(newAncestors);
-//            updateCollegeChildren(college.getCollegeId(), newAncestors, oldAncestors);
-//        }
-//        int result = collegeMapper.updateCollege(college);
-//        if (UserConstants.DEPT_NORMAL.equals(college.getStatus()))
-//        {
-//            // 如果该学院是启用状态，则启用该学院的所有上级学院
-//            updateParentCollegeStatus(college);
-//        }
-//        return result;
-//    }
+    @Override
+    public int updateCollege(SysCollege college)
+    {
+        SysCollege newParentCollege = collegeMapper.selectCollegeById(college.getParentId());
+        SysCollege oldCollege = collegeMapper.selectCollegeById(college.getCollegeId());
+        if (StringUtils.isNotNull(newParentCollege) && StringUtils.isNotNull(oldCollege))
+        {
+            String newAncestors = newParentCollege.getAncestors() + "," + newParentCollege.getCollegeId();
+            String oldAncestors = oldCollege.getAncestors();
+            college.setAncestors(newAncestors);
+            updateCollegeChildren(college.getCollegeId(), newAncestors, oldAncestors);
+        }
+        int result = collegeMapper.updateCollege(college);
+        if (UserConstants.DEPT_NORMAL.equals(college.getStatus()))
+        {
+            // 如果该学院是启用状态，则启用该学院的所有上级学院
+            updateParentCollegeStatus(college);
+        }
+        return result;
+    }
 
     /**
      * 修改该学院的父级学院状态
@@ -237,18 +237,18 @@ public class SysCollegeServiceImpl implements ISysCollegeService
      * @param newAncestors 新的父ID集合
      * @param oldAncestors 旧的父ID集合
      */
-//    public void updateCollegeChildren(Long collegeId, String newAncestors, String oldAncestors)
-//    {
-//        List<SysCollege> children = collegeMapper.selectChildrenCollegeById(collegeId);
-//        for (SysCollege child : children)
-//        {
-//            child.setAncestors(child.getAncestors().replace(oldAncestors, newAncestors));
-//        }
-//        if (children.size() > 0)
-//        {
-//            collegeMapper.updateCollegeChildren(children);
-//        }
-//    }
+    public void updateCollegeChildren(Long collegeId, String newAncestors, String oldAncestors)
+    {
+        List<SysCollege> children = collegeMapper.selectChildrenCollegeById(collegeId);
+        for (SysCollege child : children)
+        {
+            child.setAncestors(child.getAncestors().replace(oldAncestors, newAncestors));
+        }
+        if (children.size() > 0)
+        {
+            collegeMapper.updateCollegeChildren(children);
+        }
+    }
 
     /**
      * 删除学院管理信息

@@ -79,8 +79,7 @@ public class SysUser extends BaseEntity
 
     /** 学院对象 */
     @Excels({
-        @Excel(name = "学院名称", targetAttr = "collegeName", type = Type.EXPORT),
-        @Excel(name = "学院负责人", targetAttr = "leader", type = Type.EXPORT)
+        @Excel(name = "学院名称", targetAttr = "collegeName", type = Type.EXPORT)
     })
     private SysCollege college;
 
