@@ -1,7 +1,6 @@
 package com.lfm.web.controller.system;
 
 import com.lfm.common.annotation.Log;
-import com.lfm.common.config.LfmConfig;
 import com.lfm.common.core.controller.BaseController;
 import com.lfm.common.core.domain.AjaxResult;
 import com.lfm.common.core.domain.entity.SysUser;
@@ -9,7 +8,7 @@ import com.lfm.common.core.domain.model.LoginUser;
 import com.lfm.common.enums.BusinessType;
 import com.lfm.common.utils.SecurityUtils;
 import com.lfm.common.utils.ServletUtils;
-import com.lfm.common.utils.file.FileUploadUtils;
+import com.lfm.common.utils.file.FastDFSUtils;
 import com.lfm.framework.web.service.TokenService;
 import com.lfm.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,9 @@ public class SysProfileController extends BaseController
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private FastDFSUtils fastDFSUtils;
 
     /**
      * 个人信息
@@ -106,7 +108,8 @@ public class SysProfileController extends BaseController
         if (!file.isEmpty())
         {
             LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
-            String avatar = FileUploadUtils.upload(LfmConfig.getAvatarPath(), file);
+//            String avatar = FileUploadUtils.upload(LfmConfig.getAvatarPath(), file);
+            String avatar = fastDFSUtils.upload(file);
             if (userService.updateUserAvatar(loginUser.getUsername(), avatar))
             {
                 AjaxResult ajax = AjaxResult.success();

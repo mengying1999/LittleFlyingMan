@@ -74,10 +74,10 @@
             <artifactId>littleflyingman-generator</artifactId>
         </dependency>
 
-        <!-- 反馈模块-->
         <dependency>
-            <groupId>com.lfm</groupId>
-            <artifactId>littleflyingman-feedback</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
