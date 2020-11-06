@@ -2,49 +2,112 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lfm.feedback.mapper.SysFeedbackMapper">
+<mapper namespace="com.lfm.system.mapper.SysFeedbackMapper">
 
-
-</mapper>
-<!--
     <resultMap type="SysFeedback" id="SysFeedbackResult">
-        <result property="feedbackId"    column="feedback_id"    />
-        <result property="status"    column="status"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="remark"    column="remark"    />
-        <result property="feedbackContent"    column="feedback_content"    />
-        <result property="userId"    column="user_id"    />
-        <result property="anonymityFlag"    column="anonymity_flag"    />
-        <association property="user"    column="user_id" javaType="SysUser" resultMap="com.lfm.system.mapper.SysUserMapper.SysUserResult" />
-        <collection  property="sysFeedbackMedias" javaType="java.util.List"  select="com.lfm.feedback.mapper.SysFeedbackMapper.selectSysFeedbackMediaList"     resultMap="SysFeedbackMediaResult" />
+        <result property="feedbackId" column="feedback_id"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="feedbackContent" column="feedback_content"/>
+        <result property="studentId" column="student_id"/>
+        <result property="studentName" column="student_name"/>
+        <result property="anonymityFlag" column="anonymity_flag"/>
+        <collection  property="sysFeedbackMedias"   javaType="java.util.List"        resultMap="FeedbackMediaResult" />
     </resultMap>
 
-    <resultMap type="SysFeedbackMedia" id="SysFeedbackMediaResult">
-        <result property="feedbackMediaId"    column="feedback_media_id"    />
-        <result property="status"    column="status"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="remark"    column="remark"    />
-        <result property="feedbackMediaUrl"    column="feedback_media_url"    />
-        <result property="feedbackId"    column="feedback_id"    />
+    <resultMap id="StudentResult" type="SysStudent">
+        <id property="studentId"    column="student_id"    />
+        <result property="studentName"    column="student_name"    />
     </resultMap>
-    <sql id="selectSysFeedbackMediaVo">
-        select feedback_media_id, status, create_by, create_time, update_by, update_time, remark, feedback_media_url, feedback_id from sys_feedback_media
+
+    <resultMap type="SysFeedbackMedia" id="FeedbackMediaResult">
+        <id property="feedbackMediaId" column="feedback_media_id"/>
+        <result property="feedbackMediaUrl" column="feedback_media_url"/>
+        <result property="feedbackId" column="feedback_id"/>
+    </resultMap>
+
+    <sql id="selectSysFeedbackVo">
+        select f.feedback_id, f.status, f.create_by, f.create_time, f.update_by, f.update_time, f.remark, f.feedback_content, f.student_id, f.anonymity_flag,
+            s.student_id, s.student_name,
+            m.feedback_media_id, m.feedback_media_url,m.feedback_id
+        from sys_feedback f
+              left join sys_feedback_media m on m.feedback_id = f.feedback_id
+              left join sys_student s on s.student_id = f.student_id
     </sql>
 
-    <select id="selectSysFeedbackMediaList" parameterType="SysFeedbackMedia" resultMap="SysFeedbackMediaResult">
-        <include refid="selectSysFeedbackMediaVo"/>
+    <select id="selectSysFeedbackList" parameterType="SysFeedback" resultMap="SysFeedbackResult">
+        <include refid="selectSysFeedbackVo"/>
         <where>
-            <if test="status != null  and status != ''"> and status = #{status}</if>
-            <if test="feedbackMediaUrl != null  and feedbackMediaUrl != ''"> and feedback_media_url = #{feedbackMediaUrl}</if>
-            <if test="feedbackId != null "> and feedback_id = #{feedbackId}</if>
+            <if test="status != null  and status != ''">and status = #{status}</if>
+            <if test="feedbackContent != null  and feedbackContent != ''">and feedback_content = #{feedbackContent}</if>
+            <if test="studentId != null ">and student_id = #{studentId}</if>
+            <if test="anonymityFlag != null  and anonymityFlag != ''">and anonymity_flag = #{anonymityFlag}</if>
+            <if test="studentName != null and studentName != ''">
+                AND s.student_name like concat('%', #{studentName}, '%')
+            </if>
         </where>
     </select>
 
+    <select id="selectSysFeedbackById" parameterType="Long" resultMap="SysFeedbackResult">
+        <include refid="selectSysFeedbackVo"/>
+        where feedback_id = #{feedbackId}
+    </select>
 
--->
+    <insert id="insertSysFeedback" parameterType="SysFeedback" useGeneratedKeys="true" keyProperty="feedbackId">
+        insert into sys_feedback
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="feedbackContent != null">feedback_content,</if>
+            <if test="studentId != null">student_id,</if>
+            <if test="anonymityFlag != null">anonymity_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="feedbackContent != null">#{feedbackContent},</if>
+            <if test="studentId != null">#{studentId},</if>
+            <if test="anonymityFlag != null">#{anonymityFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysFeedback" parameterType="SysFeedback">
+        update sys_feedback
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="feedbackContent != null">feedback_content = #{feedbackContent},</if>
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="anonymityFlag != null">anonymity_flag = #{anonymityFlag},</if>
+        </trim>
+        where feedback_id = #{feedbackId}
+    </update>
+
+    <delete id="deleteSysFeedbackById" parameterType="Long">
+        delete from sys_feedback where feedback_id = #{feedbackId}
+    </delete>
+
+    <delete id="deleteSysFeedbackByIds" parameterType="String">
+        delete from sys_feedback where feedback_id in
+        <foreach item="feedbackId" collection="array" open="(" separator="," close=")">
+            #{feedbackId}
+        </foreach>
+    </delete>
+
+</mapper>

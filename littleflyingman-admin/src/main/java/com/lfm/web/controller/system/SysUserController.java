@@ -17,6 +17,7 @@ import com.lfm.framework.web.service.TokenService;
 import com.lfm.system.service.ISysPostService;
 import com.lfm.system.service.ISysRoleService;
 import com.lfm.system.service.ISysUserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -50,6 +51,7 @@ public class SysUserController extends BaseController
     /**
      * 获取用户列表
      */
+    @ApiOperation("获取用户列表")
     @PreAuthorize("@ss.hasPermi('system:user:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysUser user)

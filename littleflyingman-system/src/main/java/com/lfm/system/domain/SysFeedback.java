@@ -32,15 +32,20 @@ public class SysFeedback extends BaseEntity
     @Excel(name = "反馈内容")
     private String feedbackContent;
 
-    /** 用户ID */
-    @Excel(name = "用户ID")
-    private Long userId;
+    /** 学生ID */
+    @Excel(name = "学生ID")
+    private Long studentId;
 
-    /** 用户对象 */
+
+    /** 学生ID */
+    @Excel(name = "学生Name")
+    private String studentName;
+
+    /** 学生对象 */
     @Excels({
-            @Excel(name = "用户名称", targetAttr = "userName", type = Type.EXPORT)
+            @Excel(name = "学生名称", targetAttr = "userName", type = Type.EXPORT)
     })
-    private SysUser user;
+    private SysStudent student;
 
 
     /** 反馈媒体 */
@@ -77,14 +82,14 @@ public class SysFeedback extends BaseEntity
     {
         return feedbackContent;
     }
-    public void setUserId(Long userId)
+    public void setStudentId(Long studentId)
     {
-        this.userId = userId;
+        this.studentId = studentId;
     }
 
-    public Long getUserId()
+    public Long getStudentId()
     {
-        return userId;
+        return studentId;
     }
     public void setAnonymityFlag(String anonymityFlag)
     {
@@ -96,12 +101,12 @@ public class SysFeedback extends BaseEntity
         return anonymityFlag;
     }
 
-    public SysUser getUser() {
-        return user;
+    public SysStudent getStudent() {
+        return student;
     }
 
-    public void setUser(SysUser user) {
-        this.user = user;
+    public void setStudent(SysStudent student) {
+        this.student = student;
     }
 
     public List<SysFeedbackMedia> getSysFeedbackMedias() {
@@ -123,10 +128,19 @@ public class SysFeedback extends BaseEntity
                 .append("updateTime", getUpdateTime())
                 .append("remark", getRemark())
                 .append("feedbackContent", getFeedbackContent())
-                .append("userId", getUserId())
+                .append("studentId", getStudent())
+                .append("studentName", getStudentName())
                 .append("anonymityFlag", getAnonymityFlag())
-                .append("user", getUser())
+                .append("student", getStudent())
                 .append("feedbackMedias", getSysFeedbackMedias())
                 .toString();
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 }
