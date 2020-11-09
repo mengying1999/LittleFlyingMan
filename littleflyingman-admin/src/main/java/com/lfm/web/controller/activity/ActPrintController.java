@@ -9,6 +9,8 @@ import com.lfm.common.core.domain.model.LoginUser;
 import com.lfm.common.utils.ServletUtils;
 import com.lfm.common.utils.StringUtils;
 import com.lfm.common.utils.file.FastDFSUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +32,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author zjz
  * @date 2020-11-09
  */
+@Api("打印订单管理")
 @RestController
-@RequestMapping("/feedback/print")
+@RequestMapping("/activity/print")
 public class ActPrintController extends BaseController
 {
     @Autowired
@@ -43,6 +46,7 @@ public class ActPrintController extends BaseController
     /**
      * 查询打印订单列表
      */
+    @ApiOperation("获取打印订单列表")
     @PreAuthorize("@ss.hasPermi('feedback:print:list')")
     @GetMapping("/list")
     public TableDataInfo list(ActPrint actPrint)
@@ -55,6 +59,7 @@ public class ActPrintController extends BaseController
     /**
      * 导出打印订单列表
      */
+    @ApiOperation("导出打印订单列表")
     @PreAuthorize("@ss.hasPermi('feedback:print:export')")
     @Log(title = "打印订单", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
@@ -68,6 +73,7 @@ public class ActPrintController extends BaseController
     /**
      * 获取打印订单详细信息
      */
+    @ApiOperation("获取打印订单详细信息")
     @PreAuthorize("@ss.hasPermi('feedback:print:query')")
     @GetMapping(value = "/{printId}")
     public AjaxResult getInfo(@PathVariable("printId") Long printId)
@@ -78,6 +84,7 @@ public class ActPrintController extends BaseController
     /**
      * 新增打印订单
      */
+    @ApiOperation("新增打印订单")
     @PreAuthorize("@ss.hasPermi('feedback:print:add')")
     @Log(title = "打印订单", businessType = BusinessType.INSERT)
     @PostMapping
@@ -89,6 +96,7 @@ public class ActPrintController extends BaseController
     /**
      * 修改打印订单
      */
+    @ApiOperation("修改打印订单")
     @PreAuthorize("@ss.hasPermi('feedback:print:edit')")
     @Log(title = "打印订单", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -100,6 +108,7 @@ public class ActPrintController extends BaseController
     /**
      * 删除打印订单
      */
+    @ApiOperation("删除打印订单")
     @PreAuthorize("@ss.hasPermi('feedback:print:remove')")
     @Log(title = "打印订单", businessType = BusinessType.DELETE)
     @DeleteMapping("/{printIds}")
@@ -114,28 +123,28 @@ public class ActPrintController extends BaseController
      * @param httpServletResponse
      * @throws MalformedURLException
      */
-//    @Log(title = "文件下载", businessType = BusinessType.UPDATE)
-//    @GetMapping(value = "/download/{id}")
-//    public void downloadFilesWithFastdfs(@PathVariable String id, HttpServletResponse httpServletResponse) throws MalformedURLException {
-//        //操作数据库，读取文件上传时的信息
-//        FileInfo fileInfo = actPrintService.selectActPrintById(id);
-//        if(fileInfo!=null){
-//            try {
-//                String fileName = URLEncoder.encode(fileInfo.getFileName(),"UTF8");
-//                String fileUrl = fileInfo.getFileUrl();
-//                String filepath = fileUrl.substring(fileUrl.lastIndexOf("group1/")+7);
-//                DownloadByteArray callback = new DownloadByteArray();
-//                byte[] b = fastDFSUtils.downloadFile();
-//                httpServletResponse.reset();
-//                httpServletResponse.setContentType("application/x-download");
-//                httpServletResponse.addHeader("Content-Disposition" ,"attachment;filename=\"" +fileName+ "\"");
-//                httpServletResponse.getOutputStream().write(b);
-//                service.updateDownloadCount(id);
-//                httpServletResponse.getOutputStream().close();
-//            }
-//            catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
+    @ApiOperation("文件下载")
+    @Log(title = "文件下载", businessType = BusinessType.UPDATE)
+    @GetMapping(value = "/download/{id}")
+    public void downloadFilesWithFastdfs(@PathVariable Long id, HttpServletResponse httpServletResponse) throws MalformedURLException {
+        //操作数据库，读取文件上传时的信息
+        ActPrint print = actPrintService.selectActPrintById(id);
+        if(print!=null){
+            try {
+                String fileName = print.getFileName();
+                String fileUrl = print.getFileUrl();
+                String filepath = fileUrl.substring(fileUrl.lastIndexOf("group1/")+7);
+                DownloadByteArray callback = new DownloadByteArray();
+                byte[] b = fastDFSUtils.downloadFile(fileUrl);
+                httpServletResponse.reset();
+                httpServletResponse.setContentType("application/x-download");
+                httpServletResponse.addHeader("Content-Disposition" ,"attachment;filename=\"" +fileName+ "\"");
+                httpServletResponse.getOutputStream().write(b);
+                httpServletResponse.getOutputStream().close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

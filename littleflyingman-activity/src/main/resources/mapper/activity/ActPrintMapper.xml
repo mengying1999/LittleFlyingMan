@@ -29,7 +29,7 @@
         <association property="userPrint" column="user_print_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
         <association property="userDelivery" column="user_delivery_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
         <association property="student"    column="student_id" javaType="SysStudent" resultMap="studentResult" />
-        <association property="address" column="address_id" javaType="ActAddress" resultMap="addressResult" />
+        <association property="address" column="address_id" javaType="ActAddress" resultMap="ActAddressResult" />
     </resultMap>
 
     <resultMap id="studentResult" type="SysStudent">
@@ -46,7 +46,7 @@
     <sql id="selectActPrintVo">
         select p.print_id, p.student_id, p.file_name, p.file_url, p.user_print_id, p.user_delivery_id, p.print_number, p.both_side_flag, p.color_flag, p.sealing_flag, p.paper_size, p.student_remark, p.status, p.address_id, p.cover_color, p.fee, p.create_by, p.create_time, p.update_by, p.update_time, p.remark,
             a.address_id,a.address,a.take_number,a.take_name,
-            s.student_id,sstudent_name
+            s.student_id,s.student_name
         from act_print p
         left join act_address a on a.address_id = p.address_id
         left join sys_student s on s.student_id = p.student_id
@@ -55,25 +55,31 @@
     <select id="selectActPrintList" parameterType="ActPrint" resultMap="ActPrintResult">
         <include refid="selectActPrintVo"/>
         <where>
-            <if test="studentId != null "> and student_id = #{studentId}</if>
-            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
-            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
-            <if test="userPrintId != null "> and user_print_id = #{userPrintId}</if>
-            <if test="userDeliveryId != null "> and user_delivery_id = #{userDeliveryId}</if>
-            <if test="printNumber != null "> and print_number = #{printNumber}</if>
-            <if test="bothSideFlag != null  and bothSideFlag != ''"> and both_side_flag = #{bothSideFlag}</if>
-            <if test="colorFlag != null  and colorFlag != ''"> and color_flag = #{colorFlag}</if>
-            <if test="sealingFlag != null  and sealingFlag != ''"> and sealing_flag = #{sealingFlag}</if>
-            <if test="paperSize != null  and paperSize != ''"> and paper_size = #{paperSize}</if>
-            <if test="studentRemark != null  and studentRemark != ''"> and student_remark = #{studentRemark}</if>
-            <if test="status != null  and status != ''"> and status = #{status}</if>
-            <if test="addressId != null "> and address_id = #{addressId}</if>
-            <if test="coverColor != null  and coverColor != ''"> and cover_color = #{coverColor}</if>
-            <if test="fee != null "> and fee = #{fee}</if>
+            <if test="studentId != null "> and p.student_id = #{studentId}</if>
+            <if test="fileName != null  and fileName != ''"> and p.file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and p.file_url = #{fileUrl}</if>
+            <if test="userPrintId != null "> and p.user_print_id = #{userPrintId}</if>
+            <if test="userDeliveryId != null "> and p.user_delivery_id = #{userDeliveryId}</if>
+            <if test="printNumber != null "> and p.print_number = #{printNumber}</if>
+            <if test="bothSideFlag != null  and bothSideFlag != ''"> and p.both_side_flag = #{bothSideFlag}</if>
+            <if test="colorFlag != null  and colorFlag != ''"> and p.color_flag = #{colorFlag}</if>
+            <if test="sealingFlag != null  and sealingFlag != ''"> and p.sealing_flag = #{sealingFlag}</if>
+            <if test="paperSize != null  and paperSize != ''"> and p.paper_size = #{paperSize}</if>
+            <if test="studentRemark != null  and studentRemark != ''"> and p.student_remark = #{studentRemark}</if>
+            <if test="status != null  and status != ''"> and p.status = #{status}</if>
+            <if test="addressId != null "> and p.address_id = #{addressId}</if>
+            <if test="coverColor != null  and coverColor != ''"> and p.cover_color = #{coverColor}</if>
+            <if test="fee != null "> and p.fee = #{fee}</if>
             <if test="address != null">
                 <if test="address.address != null and address != ''">
                     and a.address like concat('%', #{address.address}, '%')
                 </if>
+            </if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(p.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+            </if>
+            <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(p.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
             </if>
         </where>
     </select>
