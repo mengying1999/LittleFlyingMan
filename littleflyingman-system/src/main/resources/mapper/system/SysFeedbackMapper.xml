@@ -60,7 +60,7 @@
 
     <select id="selectSysFeedbackById" parameterType="Long" resultMap="SysFeedbackResult">
         <include refid="selectSysFeedbackVo"/>
-        where feedback_id = #{feedbackId}
+        where f.feedback_id = #{feedbackId}
     </select>
 
     <insert id="insertSysFeedback" parameterType="SysFeedback" useGeneratedKeys="true" keyProperty="feedbackId">

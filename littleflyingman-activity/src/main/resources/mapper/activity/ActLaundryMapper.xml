@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lfm.activity.mapper.ActLaundryMapper">
+
+    <resultMap type="ActLaundry" id="ActLaundryResult">
+        <result property="laundryId"    column="laundry_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="addressId"    column="address_id"    />
+        <result property="userWashId"    column="user_wash_id"    />
+        <result property="userDeliveryId"    column="user_delivery_id"    />
+        <result property="userPikeId"    column="user_pike_id"    />
+        <result property="clothesType"    column="clothes_type"    />
+        <result property="washType"    column="wash_type"    />
+        <result property="clothesNumber"    column="clothes_number"    />
+        <result property="customerRemark"    column="customer_remark"    />
+        <result property="status"    column="status"    />
+        <result property="fee"    column="fee"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="address"    column="address"    />
+        <result property="takeNumber"    column="take_number"    />
+        <result property="takeName"    column="take_name"    />
+        <result property="studentName"    column="student_name"/>
+        <association property="userWash" column="user_wash_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
+        <association property="userDelivery" column="user_delivery_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
+        <association property="userPike" column="user_pike_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
+    </resultMap>
+
+    <sql id="selectActLaundryVo">
+        select l.laundry_id, l.student_id, l.address_id, l.user_wash_id, l.user_delivery_id, l.user_pike_id, l.clothes_type, l.wash_type, l.clothes_number, l.customer_remark, l.status, l.fee, l.create_by, l.create_time, l.update_by, l.update_time, l.remark,
+            a.address_id,a.address ,a.take_number,a.take_name,
+            s.student_id,s.student_name
+        from act_laundry l
+        left join act_address a on a.address_id = l.address_id
+        left join sys_student s on s.student_id = l.student_id
+    </sql>
+
+    <select id="selectActLaundryList" parameterType="ActLaundry" resultMap="ActLaundryResult">
+        <include refid="selectActLaundryVo"/>
+        <where>
+            <if test="studentId != null "> and l.student_id = #{studentId}</if>
+            <if test="addressId != null "> and l.address_id = #{addressId}</if>
+            <if test="userWashId != null "> and l.user_wash_id = #{userWashId}</if>
+            <if test="userDeliveryId != null "> and l.user_delivery_id = #{userDeliveryId}</if>
+            <if test="userPikeId != null "> and l.user_pike_id = #{userPikeId}</if>
+            <if test="clothesType != null  and clothesType != ''"> and l.clothes_type = #{clothesType}</if>
+            <if test="washType != null  and washType != ''"> and l.wash_type = #{washType}</if>
+            <if test="clothesNumber != null "> and l.clothes_number = #{clothesNumber}</if>
+            <if test="customerRemark != null  and customerRemark != ''"> and l.customer_remark = #{customerRemark}</if>
+            <if test="status != null  and status != ''"> and l.status = #{status}</if>
+            <if test="fee != null "> and l.fee = #{fee}</if>
+            <if test="address != null">
+                and a.address like concat('%', #{address}, '%')
+            </if>
+            <if test="takeNumber != null">
+                and a.takeNumber like concat('%', #{takeNumber}, '%')
+            </if>
+            <if test="takeName != null">
+                and a.takeName like concat('%', #{takeName}, '%')
+            </if>
+            <if test="studentName != null">
+                and s.studentName like concat('%', #{studentName}, '%')
+            </if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(l.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+            </if>
+            <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(l.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectActLaundryById" parameterType="Long" resultMap="ActLaundryResult">
+        <include refid="selectActLaundryVo"/>
+        where laundry_id = #{laundryId}
+    </select>
+
+    <insert id="insertActLaundry" parameterType="ActLaundry" useGeneratedKeys="true" keyProperty="laundryId">
+        insert into act_laundry
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="addressId != null">address_id,</if>
+            <if test="userWashId != null">user_wash_id,</if>
+            <if test="userDeliveryId != null">user_delivery_id,</if>
+            <if test="userPikeId != null">user_pike_id,</if>
+            <if test="clothesType != null">clothes_type,</if>
+            <if test="washType != null">wash_type,</if>
+            <if test="clothesNumber != null">clothes_number,</if>
+            <if test="customerRemark != null">customer_remark,</if>
+            <if test="status != null">status,</if>
+            <if test="fee != null">fee,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="addressId != null">#{addressId},</if>
+            <if test="userWashId != null">#{userWashId},</if>
+            <if test="userDeliveryId != null">#{userDeliveryId},</if>
+            <if test="userPikeId != null">#{userPikeId},</if>
+            <if test="clothesType != null">#{clothesType},</if>
+            <if test="washType != null">#{washType},</if>
+            <if test="clothesNumber != null">#{clothesNumber},</if>
+            <if test="customerRemark != null">#{customerRemark},</if>
+            <if test="status != null">#{status},</if>
+            <if test="fee != null">#{fee},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateActLaundry" parameterType="ActLaundry">
+        update act_laundry
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="addressId != null">address_id = #{addressId},</if>
+            <if test="userWashId != null">user_wash_id = #{userWashId},</if>
+            <if test="userDeliveryId != null">user_delivery_id = #{userDeliveryId},</if>
+            <if test="userPikeId != null">user_pike_id = #{userPikeId},</if>
+            <if test="clothesType != null">clothes_type = #{clothesType},</if>
+            <if test="washType != null">wash_type = #{washType},</if>
+            <if test="clothesNumber != null">clothes_number = #{clothesNumber},</if>
+            <if test="customerRemark != null">customer_remark = #{customerRemark},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="fee != null">fee = #{fee},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where laundry_id = #{laundryId}
+    </update>
+
+    <delete id="deleteActLaundryById" parameterType="Long">
+        delete from act_laundry where laundry_id = #{laundryId}
+    </delete>
+
+    <delete id="deleteActLaundryByIds" parameterType="String">
+        delete from act_laundry where laundry_id in
+        <foreach item="laundryId" collection="array" open="(" separator="," close=")">
+            #{laundryId}
+        </foreach>
+    </delete>
+
+</mapper>

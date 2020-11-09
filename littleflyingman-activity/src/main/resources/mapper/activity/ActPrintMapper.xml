@@ -26,26 +26,16 @@
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="remark"    column="remark"    />
-        <association property="userPrint" column="user_print_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
-        <association property="userDelivery" column="user_delivery_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
-        <association property="student"    column="student_id" javaType="SysStudent" resultMap="studentResult" />
-        <association property="address" column="address_id" javaType="ActAddress" resultMap="ActAddressResult" />
-    </resultMap>
-
-    <resultMap id="studentResult" type="SysStudent">
-        <id property="studentId"    column="student_id"    />
-        <result property="studentName"    column="student_name"/>
-    </resultMap>
-
-    <resultMap type="ActAddress" id="ActAddressResult">
-        <id property="addressId"    column="address_id"    />
         <result property="address"    column="address"    />
         <result property="takeNumber"    column="take_number"    />
         <result property="takeName"    column="take_name"    />
+        <result property="studentName"    column="student_name"/>
+        <association property="userPrint" column="user_print_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
+        <association property="userDelivery" column="user_delivery_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
     </resultMap>
     <sql id="selectActPrintVo">
         select p.print_id, p.student_id, p.file_name, p.file_url, p.user_print_id, p.user_delivery_id, p.print_number, p.both_side_flag, p.color_flag, p.sealing_flag, p.paper_size, p.student_remark, p.status, p.address_id, p.cover_color, p.fee, p.create_by, p.create_time, p.update_by, p.update_time, p.remark,
-            a.address_id,a.address,a.take_number,a.take_name,
+            a.address_id,a.address ,a.take_number,a.take_name,
             s.student_id,s.student_name
         from act_print p
         left join act_address a on a.address_id = p.address_id
@@ -71,9 +61,16 @@
             <if test="coverColor != null  and coverColor != ''"> and p.cover_color = #{coverColor}</if>
             <if test="fee != null "> and p.fee = #{fee}</if>
             <if test="address != null">
-                <if test="address.address != null and address != ''">
-                    and a.address like concat('%', #{address.address}, '%')
-                </if>
+                and a.address like concat('%', #{address}, '%')
+            </if>
+            <if test="takeNumber != null">
+                and a.takeNumber like concat('%', #{takeNumber}, '%')
+            </if>
+            <if test="takeName != null">
+                and a.takeName like concat('%', #{takeName}, '%')
+            </if>
+            <if test="studentName != null">
+                and s.studentName like concat('%', #{studentName}, '%')
             </if>
             <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
                 AND date_format(p.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')

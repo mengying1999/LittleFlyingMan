@@ -25,11 +25,9 @@ public class ActPrint extends BaseEntity
     @Excel(name = "学生Id")
     private Long studentId;
 
-    /** 学生对象 */
-    @Excels({
-            @Excel(name = "学生名称", targetAttr = "studentName", type = Type.EXPORT)
-    })
-    private SysStudent student;
+    /** 学生名称 */
+    @Excel(name = "学生名称")
+    private String studentName;
 
     /** 文件名 */
     @Excel(name = "文件名")
@@ -90,7 +88,17 @@ public class ActPrint extends BaseEntity
     @Excel(name = "配送地址id")
     private Long addressId;
 
-    private ActAddress address;
+    /** 地址信息 */
+    @Excel(name = "地址信息")
+    private String address;
+
+    /** 取货人手机号 */
+    @Excel(name = "取货人手机号")
+    private String takeNumber;
+
+    /** 取货人姓名 */
+    @Excel(name = "取货人姓名")
+    private String takeName;
 
     /** 封面颜色(0蓝色) */
     @Excel(name = "封面颜色(0蓝色)")
@@ -245,12 +253,12 @@ public class ActPrint extends BaseEntity
         return fee;
     }
 
-    public SysStudent getStudent() {
-        return student;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setStudent(SysStudent student) {
-        this.student = student;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
     public SysUser getUserPrint() {
@@ -269,12 +277,28 @@ public class ActPrint extends BaseEntity
         this.userDelivery = userDelivery;
     }
 
-    public ActAddress getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(ActAddress address) {
+    public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getTakeNumber() {
+        return takeNumber;
+    }
+
+    public void setTakeNumber(String takeNumber) {
+        this.takeNumber = takeNumber;
+    }
+
+    public String getTakeName() {
+        return takeName;
+    }
+
+    public void setTakeName(String takeName) {
+        this.takeName = takeName;
     }
 
     @Override
@@ -301,10 +325,12 @@ public class ActPrint extends BaseEntity
                 .append("updateBy", getUpdateBy())
                 .append("updateTime", getUpdateTime())
                 .append("remark", getRemark())
-                .append("student", getStudent())
+                .append("studentName", getStudentName())
                 .append("userPrint", getUserPrint())
                 .append("userDelivery", getUserDelivery())
                 .append("address", getAddress())
+                .append("takeName",getTakeName())
+                .append("takeNumber",getTakeNumber())
                 .toString();
     }
 }
