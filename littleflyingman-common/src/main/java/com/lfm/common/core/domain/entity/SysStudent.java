@@ -1,4 +1,4 @@
-package com.lfm.system.domain;
+package com.lfm.common.core.domain.entity;
 
 import com.lfm.common.annotation.Excel;
 import com.lfm.common.annotation.Excels;

@@ -44,10 +44,16 @@
         <where>
             <if test="status != null  and status != ''">and status = #{status}</if>
             <if test="feedbackContent != null  and feedbackContent != ''">and feedback_content = #{feedbackContent}</if>
-            <if test="studentId != null ">and student_id = #{studentId}</if>
+            <if test="studentId != null ">and s.student_id = #{studentId}</if>
             <if test="anonymityFlag != null  and anonymityFlag != ''">and anonymity_flag = #{anonymityFlag}</if>
             <if test="studentName != null and studentName != ''">
                 AND s.student_name like concat('%', #{studentName}, '%')
+            </if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(f.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+            </if>
+            <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(f.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
             </if>
         </where>
     </select>

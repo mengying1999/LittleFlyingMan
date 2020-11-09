@@ -1,11 +1,9 @@
 package com.lfm.system.domain;
 import com.lfm.common.annotation.Excel;
-import com.lfm.common.annotation.Excel.ColumnType;
 import com.lfm.common.annotation.Excels;
 import com.lfm.common.core.domain.BaseEntity;
-import com.lfm.common.core.domain.entity.SysCollege;
 import com.lfm.common.annotation.Excel.Type;
-import com.lfm.common.core.domain.entity.SysUser;
+import com.lfm.common.core.domain.entity.SysStudent;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 

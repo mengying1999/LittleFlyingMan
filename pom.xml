@@ -15,6 +15,7 @@
         <module>littleflyingman-quartz</module>
         <module>littleflyingman-system</module>
         <module>littleflyingman-generator</module>
+        <module>littleflyingman-activity</module>
     </modules>
 
     <properties>
@@ -190,6 +191,13 @@
             <dependency>
                 <groupId>com.lfm</groupId>
                 <artifactId>littleflyingman-system</artifactId>
+                <version>${littleflyingman.version}</version>
+            </dependency>
+
+            <!-- 大学生日常活动管理模块-->
+            <dependency>
+                <groupId>com.lfm</groupId>
+                <artifactId>littleflyingman-activity</artifactId>
                 <version>${littleflyingman.version}</version>
             </dependency>
 

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lfm.activity.mapper.ActPrintMapper">
+
+    <resultMap type="ActPrint" id="ActPrintResult">
+        <result property="printId"    column="print_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="userPrintId"    column="user_print_id"    />
+        <result property="userDeliveryId"    column="user_delivery_id"    />
+        <result property="printNumber"    column="print_number"    />
+        <result property="bothSideFlag"    column="both_side_flag"    />
+        <result property="colorFlag"    column="color_flag"    />
+        <result property="sealingFlag"    column="sealing_flag"    />
+        <result property="paperSize"    column="paper_size"    />
+        <result property="studentRemark"    column="student_remark"    />
+        <result property="status"    column="status"    />
+        <result property="addressId"    column="address_id"    />
+        <result property="coverColor"    column="cover_color"    />
+        <result property="fee"    column="fee"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <association property="userPrint" column="user_print_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
+        <association property="userDelivery" column="user_delivery_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
+        <association property="student"    column="student_id" javaType="SysStudent" resultMap="studentResult" />
+        <association property="address" column="address_id" javaType="ActAddress" resultMap="addressResult" />
+    </resultMap>
+
+    <resultMap id="studentResult" type="SysStudent">
+        <id property="studentId"    column="student_id"    />
+        <result property="studentName"    column="student_name"/>
+    </resultMap>
+
+    <resultMap type="ActAddress" id="ActAddressResult">
+        <id property="addressId"    column="address_id"    />
+        <result property="address"    column="address"    />
+        <result property="takeNumber"    column="take_number"    />
+        <result property="takeName"    column="take_name"    />
+    </resultMap>
+    <sql id="selectActPrintVo">
+        select p.print_id, p.student_id, p.file_name, p.file_url, p.user_print_id, p.user_delivery_id, p.print_number, p.both_side_flag, p.color_flag, p.sealing_flag, p.paper_size, p.student_remark, p.status, p.address_id, p.cover_color, p.fee, p.create_by, p.create_time, p.update_by, p.update_time, p.remark,
+            a.address_id,a.address,a.take_number,a.take_name,
+            s.student_id,sstudent_name
+        from act_print p
+        left join act_address a on a.address_id = p.address_id
+        left join sys_student s on s.student_id = p.student_id
+    </sql>
+
+    <select id="selectActPrintList" parameterType="ActPrint" resultMap="ActPrintResult">
+        <include refid="selectActPrintVo"/>
+        <where>
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+            <if test="userPrintId != null "> and user_print_id = #{userPrintId}</if>
+            <if test="userDeliveryId != null "> and user_delivery_id = #{userDeliveryId}</if>
+            <if test="printNumber != null "> and print_number = #{printNumber}</if>
+            <if test="bothSideFlag != null  and bothSideFlag != ''"> and both_side_flag = #{bothSideFlag}</if>
+            <if test="colorFlag != null  and colorFlag != ''"> and color_flag = #{colorFlag}</if>
+            <if test="sealingFlag != null  and sealingFlag != ''"> and sealing_flag = #{sealingFlag}</if>
+            <if test="paperSize != null  and paperSize != ''"> and paper_size = #{paperSize}</if>
+            <if test="studentRemark != null  and studentRemark != ''"> and student_remark = #{studentRemark}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="addressId != null "> and address_id = #{addressId}</if>
+            <if test="coverColor != null  and coverColor != ''"> and cover_color = #{coverColor}</if>
+            <if test="fee != null "> and fee = #{fee}</if>
+            <if test="address != null">
+                <if test="address.address != null and address != ''">
+                    and a.address like concat('%', #{address.address}, '%')
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectActPrintById" parameterType="Long" resultMap="ActPrintResult">
+        <include refid="selectActPrintVo"/>
+        where print_id = #{printId}
+    </select>
+
+    <insert id="insertActPrint" parameterType="ActPrint" useGeneratedKeys="true" keyProperty="printId">
+        insert into act_print
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="fileName != null and fileName != ''">file_name,</if>
+            <if test="fileUrl != null and fileUrl != ''">file_url,</if>
+            <if test="userPrintId != null">user_print_id,</if>
+            <if test="userDeliveryId != null">user_delivery_id,</if>
+            <if test="printNumber != null">print_number,</if>
+            <if test="bothSideFlag != null">both_side_flag,</if>
+            <if test="colorFlag != null">color_flag,</if>
+            <if test="sealingFlag != null">sealing_flag,</if>
+            <if test="paperSize != null">paper_size,</if>
+            <if test="studentRemark != null">student_remark,</if>
+            <if test="status != null">status,</if>
+            <if test="addressId != null">address_id,</if>
+            <if test="coverColor != null">cover_color,</if>
+            <if test="fee != null">fee,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="fileName != null and fileName != ''">#{fileName},</if>
+            <if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
+            <if test="userPrintId != null">#{userPrintId},</if>
+            <if test="userDeliveryId != null">#{userDeliveryId},</if>
+            <if test="printNumber != null">#{printNumber},</if>
+            <if test="bothSideFlag != null">#{bothSideFlag},</if>
+            <if test="colorFlag != null">#{colorFlag},</if>
+            <if test="sealingFlag != null">#{sealingFlag},</if>
+            <if test="paperSize != null">#{paperSize},</if>
+            <if test="studentRemark != null">#{studentRemark},</if>
+            <if test="status != null">#{status},</if>
+            <if test="addressId != null">#{addressId},</if>
+            <if test="coverColor != null">#{coverColor},</if>
+            <if test="fee != null">#{fee},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateActPrint" parameterType="ActPrint">
+        update act_print
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+            <if test="fileUrl != null and fileUrl != ''">file_url = #{fileUrl},</if>
+            <if test="userPrintId != null">user_print_id = #{userPrintId},</if>
+            <if test="userDeliveryId != null">user_delivery_id = #{userDeliveryId},</if>
+            <if test="printNumber != null">print_number = #{printNumber},</if>
+            <if test="bothSideFlag != null">both_side_flag = #{bothSideFlag},</if>
+            <if test="colorFlag != null">color_flag = #{colorFlag},</if>
+            <if test="sealingFlag != null">sealing_flag = #{sealingFlag},</if>
+            <if test="paperSize != null">paper_size = #{paperSize},</if>
+            <if test="studentRemark != null">student_remark = #{studentRemark},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="addressId != null">address_id = #{addressId},</if>
+            <if test="coverColor != null">cover_color = #{coverColor},</if>
+            <if test="fee != null">fee = #{fee},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where print_id = #{printId}
+    </update>
+
+    <delete id="deleteActPrintById" parameterType="Long">
+        delete from act_print where print_id = #{printId}
+    </delete>
+
+    <delete id="deleteActPrintByIds" parameterType="String">
+        delete from act_print where print_id in
+        <foreach item="printId" collection="array" open="(" separator="," close=")">
+            #{printId}
+        </foreach>
+    </delete>
+
+</mapper>

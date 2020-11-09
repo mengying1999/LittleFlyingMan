@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lfm.activity.mapper.ActAddressMapper">
+
+    <resultMap type="ActAddress" id="ActAddressResult">
+        <result property="addressId"    column="address_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="address"    column="address"    />
+        <result property="takeNumber"    column="take_number"    />
+        <result property="takeName"    column="take_name"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectActAddressVo">
+        select address_id, student_id, address, take_number, take_name, del_flag, create_by, create_time, update_by, update_time, remark from act_address
+    </sql>
+
+    <select id="selectActAddressList" parameterType="ActAddress" resultMap="ActAddressResult">
+        <include refid="selectActAddressVo"/>
+        <where>
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="takeNumber != null  and takeNumber != ''"> and take_number = #{takeNumber}</if>
+            <if test="takeName != null  and takeName != ''"> and take_name like concat('%', #{takeName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectActAddressById" parameterType="Long" resultMap="ActAddressResult">
+        <include refid="selectActAddressVo"/>
+        where address_id = #{addressId}
+    </select>
+
+    <insert id="insertActAddress" parameterType="ActAddress" useGeneratedKeys="true" keyProperty="addressId">
+        insert into act_address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="address != null and address != ''">address,</if>
+            <if test="takeNumber != null and takeNumber != ''">take_number,</if>
+            <if test="takeName != null and takeName != ''">take_name,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="address != null and address != ''">#{address},</if>
+            <if test="takeNumber != null and takeNumber != ''">#{takeNumber},</if>
+            <if test="takeName != null and takeName != ''">#{takeName},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateActAddress" parameterType="ActAddress">
+        update act_address
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="takeNumber != null and takeNumber != ''">take_number = #{takeNumber},</if>
+            <if test="takeName != null and takeName != ''">take_name = #{takeName},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where address_id = #{addressId}
+    </update>
+
+    <delete id="deleteActAddressById" parameterType="Long">
+        delete from act_address where address_id = #{addressId}
+    </delete>
+
+    <delete id="deleteActAddressByIds" parameterType="String">
+        delete from act_address where address_id in
+        <foreach item="addressId" collection="array" open="(" separator="," close=")">
+            #{addressId}
+        </foreach>
+    </delete>
+
+</mapper>
