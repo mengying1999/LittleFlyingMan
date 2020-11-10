@@ -1,6 +1,9 @@
 package com.lfm.web.controller.activity;
 
 import java.util.List;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +29,7 @@ import com.lfm.common.core.page.TableDataInfo;
  * @author zjz
  * @date 2020-11-09
  */
+@Api("包裹订单管理")
 @RestController
 @RequestMapping("/activity/package")
 public class ActPackageController extends BaseController
@@ -36,6 +40,7 @@ public class ActPackageController extends BaseController
     /**
      * 查询包裹订单信息列表
      */
+    @ApiOperation("查询包裹订单信息列表")
     @PreAuthorize("@ss.hasPermi('activity:package:list')")
     @GetMapping("/list")
     public TableDataInfo list(ActPackage actPackage)
@@ -48,6 +53,7 @@ public class ActPackageController extends BaseController
     /**
      * 导出包裹订单信息列表
      */
+    @ApiOperation("导出包裹订单信息列表")
     @PreAuthorize("@ss.hasPermi('activity:package:export')")
     @Log(title = "包裹订单信息", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
@@ -61,6 +67,7 @@ public class ActPackageController extends BaseController
     /**
      * 获取包裹订单信息详细信息
      */
+    @ApiOperation("获取包裹订单信息详细信息")
     @PreAuthorize("@ss.hasPermi('activity:package:query')")
     @GetMapping(value = "/{packageId}")
     public AjaxResult getInfo(@PathVariable("packageId") Long packageId)
@@ -71,6 +78,7 @@ public class ActPackageController extends BaseController
     /**
      * 新增包裹订单信息
      */
+    @ApiOperation("新增包裹订单信息")
     @PreAuthorize("@ss.hasPermi('activity:package:add')")
     @Log(title = "包裹订单信息", businessType = BusinessType.INSERT)
     @PostMapping
@@ -82,6 +90,7 @@ public class ActPackageController extends BaseController
     /**
      * 修改包裹订单信息
      */
+    @ApiOperation("修改包裹订单信息")
     @PreAuthorize("@ss.hasPermi('activity:package:edit')")
     @Log(title = "包裹订单信息", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -93,6 +102,7 @@ public class ActPackageController extends BaseController
     /**
      * 删除包裹订单信息
      */
+    @ApiOperation("删除包裹订单信息")
     @PreAuthorize("@ss.hasPermi('activity:package:remove')")
     @Log(title = "包裹订单信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{packageIds}")

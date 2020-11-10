@@ -83,7 +83,7 @@
 
     <select id="selectActPrintById" parameterType="Long" resultMap="ActPrintResult">
         <include refid="selectActPrintVo"/>
-        where print_id = #{printId}
+        where p.print_id = #{printId}
     </select>
 
     <insert id="insertActPrint" parameterType="ActPrint" useGeneratedKeys="true" keyProperty="printId">

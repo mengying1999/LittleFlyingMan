@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lfm.activity.mapper.ActTaskMapper">
+
+    <resultMap type="ActTask" id="ActTaskResult">
+        <result property="taskId"    column="task_id"    />
+        <result property="studentSendId"    column="student_send_id"    />
+        <result property="studentRealizeId"    column="student_realize_id"    />
+        <result property="status"    column="status"    />
+        <result property="taskDescribe"    column="task_describe"    />
+        <result property="fee"    column="fee"    />
+        <result property="taskType"    column="task_type"    />
+        <result property="addressId"    column="address_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="address"    column="address"    />
+        <result property="takeNumber"    column="take_number"    />
+        <result property="takeName"    column="take_name"    />
+        <result property="studentSendName"    column="student_send_name"/>
+        <result property="studentRealizeName"    column="student_realize_name"/>
+    </resultMap>
+
+    <sql id="selectActTaskVo">
+        select t.task_id, t.student_send_id, t.student_realize_id, t.status, t.task_describe, t.fee, t.task_type, t.address_id, t.create_by, t.create_time, t.update_by, t.update_time, t.remark,
+        a.address_id,a.address ,a.take_number,a.take_name,
+        s.student_id,s.student_name as student_send_name,
+        s2.student_id,s2.student_name as student_realize_name
+        from act_task t
+        left join act_address a on a.address_id = t.address_id
+        left join sys_student s on s.student_id = t.student_send_id
+        left join sys_student s2 on s2.student_id = t.student_realize_id
+    </sql>
+
+    <select id="selectActTaskList" parameterType="ActTask" resultMap="ActTaskResult">
+        <include refid="selectActTaskVo"/>
+        <where>
+            <if test="studentSendId != null "> and t.student_send_id = #{studentSendId}</if>
+            <if test="studentRealizeId != null "> and t.student_realize_id = #{studentRealizeId}</if>
+            <if test="status != null  and status != ''"> and t.status = #{status}</if>
+            <if test="taskDescribe != null  and taskDescribe != ''"> and t.task_describe = #{taskDescribe}</if>
+            <if test="fee != null "> and t.fee = #{fee}</if>
+            <if test="taskType != null  and taskType != ''"> and t.task_type = #{taskType}</if>
+            <if test="addressId != null "> and t.address_id = #{addressId}</if>
+            <if test="address != null">
+                and a.address like concat('%', #{address}, '%')
+            </if>
+            <if test="takeNumber != null">
+                and a.takeNumber like concat('%', #{takeNumber}, '%')
+            </if>
+            <if test="takeName != null">
+                and a.takeName like concat('%', #{takeName}, '%')
+            </if>
+            <if test="studentSendName != null">
+                and s.studentName like concat('%', #{studentSendName}, '%')
+            </if>
+            <if test="studentRealizeName != null">
+                and s2.studentName like concat('%', #{studentRealizeName}, '%')
+            </if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(t.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+            </if>
+            <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(t.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectActTaskById" parameterType="Long" resultMap="ActTaskResult">
+        <include refid="selectActTaskVo"/>
+        where t.task_id = #{taskId}
+    </select>
+
+    <insert id="insertActTask" parameterType="ActTask" useGeneratedKeys="true" keyProperty="taskId">
+        insert into act_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentSendId != null">student_send_id,</if>
+            <if test="studentRealizeId != null">student_realize_id,</if>
+            <if test="status != null">status,</if>
+            <if test="taskDescribe != null">task_describe,</if>
+            <if test="fee != null">fee,</if>
+            <if test="taskType != null">task_type,</if>
+            <if test="addressId != null">address_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentSendId != null">#{studentSendId},</if>
+            <if test="studentRealizeId != null">#{studentRealizeId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="taskDescribe != null">#{taskDescribe},</if>
+            <if test="fee != null">#{fee},</if>
+            <if test="taskType != null">#{taskType},</if>
+            <if test="addressId != null">#{addressId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateActTask" parameterType="ActTask">
+        update act_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentSendId != null">student_send_id = #{studentSendId},</if>
+            <if test="studentRealizeId != null">student_realize_id = #{studentRealizeId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="taskDescribe != null">task_describe = #{taskDescribe},</if>
+            <if test="fee != null">fee = #{fee},</if>
+            <if test="taskType != null">task_type = #{taskType},</if>
+            <if test="addressId != null">address_id = #{addressId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where task_id = #{taskId}
+    </update>
+
+    <delete id="deleteActTaskById" parameterType="Long">
+        delete from act_task where task_id = #{taskId}
+    </delete>
+
+    <delete id="deleteActTaskByIds" parameterType="String">
+        delete from act_task where task_id in
+        <foreach item="taskId" collection="array" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </delete>
+
+</mapper>

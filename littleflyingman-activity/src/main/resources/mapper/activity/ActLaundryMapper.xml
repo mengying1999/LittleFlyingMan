@@ -77,7 +77,7 @@
 
     <select id="selectActLaundryById" parameterType="Long" resultMap="ActLaundryResult">
         <include refid="selectActLaundryVo"/>
-        where laundry_id = #{laundryId}
+        where l.laundry_id = #{laundryId}
     </select>
 
     <insert id="insertActLaundry" parameterType="ActLaundry" useGeneratedKeys="true" keyProperty="laundryId">
