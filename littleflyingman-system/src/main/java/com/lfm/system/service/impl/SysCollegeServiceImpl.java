@@ -186,7 +186,7 @@ public class SysCollegeServiceImpl implements ISysCollegeService
         {
             throw new CustomException("学院停用，不允许新增");
         }
-//        college.setAncestors(info.getAncestors() + "," + college.getParentId());
+        college.setAncestors(info.getAncestors() + "," + college.getParentId());
         return collegeMapper.insertCollege(college);
     }
 
