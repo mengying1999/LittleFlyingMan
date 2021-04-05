@@ -6,9 +6,9 @@ import com.lfm.common.core.domain.entity.SysRole;
 import com.lfm.common.exception.CustomException;
 import com.lfm.common.utils.StringUtils;
 import com.lfm.common.utils.spring.SpringUtils;
-import com.lfm.system.domain.SysRoleCollege;
+import com.lfm.system.domain.SysRoleSchool;
 import com.lfm.system.domain.SysRoleMenu;
-import com.lfm.system.mapper.SysRoleCollegeMapper;
+import com.lfm.system.mapper.SysRoleSchoolMapper;
 import com.lfm.system.mapper.SysRoleMapper;
 import com.lfm.system.mapper.SysRoleMenuMapper;
 import com.lfm.system.mapper.SysUserRoleMapper;
@@ -37,7 +37,7 @@ public class SysRoleServiceImpl implements ISysRoleService
     private SysUserRoleMapper userRoleMapper;
 
     @Autowired
-    private SysRoleCollegeMapper roleCollegeMapper;
+    private SysRoleSchoolMapper roleSchoolMapper;
 
     /**
      * 根据条件分页查询角色数据
@@ -46,7 +46,7 @@ public class SysRoleServiceImpl implements ISysRoleService
      * @return 角色数据集合信息
      */
     @Override
-    @DataScope(collegeAlias = "d")
+    @DataScope(schoolAlias = "d")
     public List<SysRole> selectRoleList(SysRole role)
     {
         return roleMapper.selectRoleList(role);
@@ -227,9 +227,9 @@ public class SysRoleServiceImpl implements ISysRoleService
         // 修改角色信息
         roleMapper.updateRole(role);
         // 删除角色与学院关联
-        roleCollegeMapper.deleteRoleCollegeByRoleId(role.getRoleId());
+        roleSchoolMapper.deleteRoleSchoolByRoleId(role.getRoleId());
         // 新增角色和学院信息（数据权限）
-        return insertRoleCollege(role);
+        return insertRoleSchool(role);
     }
 
     /**
@@ -261,21 +261,21 @@ public class SysRoleServiceImpl implements ISysRoleService
      *
      * @param role 角色对象
      */
-    public int insertRoleCollege(SysRole role)
+    public int insertRoleSchool(SysRole role)
     {
         int rows = 1;
         // 新增角色与学院（数据权限）管理
-        List<SysRoleCollege> list = new ArrayList<SysRoleCollege>();
-        for (Long collegeId : role.getCollegeIds())
+        List<SysRoleSchool> list = new ArrayList<SysRoleSchool>();
+        for (Long schoolId : role.getSchoolIds())
         {
-            SysRoleCollege rd = new SysRoleCollege();
+            SysRoleSchool rd = new SysRoleSchool();
             rd.setRoleId(role.getRoleId());
-            rd.setCollegeId(collegeId);
+            rd.setSchoolId(schoolId);
             list.add(rd);
         }
         if (list.size() > 0)
         {
-            rows = roleCollegeMapper.batchRoleCollege(list);
+            rows = roleSchoolMapper.batchRoleSchool(list);
         }
         return rows;
     }

@@ -42,7 +42,7 @@ public class SysRole extends BaseEntity
     private boolean menuCheckStrictly;
 
     /** 学院树选择项是否关联显示（0：父子不互相关联显示 1：父子互相关联显示 ） */
-    private boolean collegeCheckStrictly;
+    private boolean schoolCheckStrictly;
 
     /** 角色状态（0正常 1停用） */
     @Excel(name = "角色状态", readConverterExp = "0=正常,1=停用")
@@ -58,7 +58,7 @@ public class SysRole extends BaseEntity
     private Long[] menuIds;
 
     /** 学院组（数据权限） */
-    private Long[] collegeIds;
+    private Long[] schoolIds;
 
     public SysRole()
     {
@@ -145,14 +145,14 @@ public class SysRole extends BaseEntity
         this.menuCheckStrictly = menuCheckStrictly;
     }
 
-    public boolean isCollegeCheckStrictly()
+    public boolean isSchoolCheckStrictly()
     {
-        return collegeCheckStrictly;
+        return schoolCheckStrictly;
     }
 
-    public void setCollegeCheckStrictly(boolean collegeCheckStrictly)
+    public void setSchoolCheckStrictly(boolean schoolCheckStrictly)
     {
-        this.collegeCheckStrictly = collegeCheckStrictly;
+        this.schoolCheckStrictly = schoolCheckStrictly;
     }
 
     public String getStatus()
@@ -195,14 +195,14 @@ public class SysRole extends BaseEntity
         this.menuIds = menuIds;
     }
 
-    public Long[] getCollegeIds()
+    public Long[] getSchoolIds()
     {
-        return collegeIds;
+        return schoolIds;
     }
 
-    public void setCollegeIds(Long[] collegeIds)
+    public void setSchoolIds(Long[] schoolIds)
     {
-        this.collegeIds = collegeIds;
+        this.schoolIds = schoolIds;
     }
     
     @Override
@@ -214,7 +214,7 @@ public class SysRole extends BaseEntity
             .append("roleSort", getRoleSort())
             .append("dataScope", getDataScope())
             .append("menuCheckStrictly", isMenuCheckStrictly())
-            .append("collegeCheckStrictly", isCollegeCheckStrictly())
+            .append("schoolCheckStrictly", isSchoolCheckStrictly())
             .append("status", getStatus())
             .append("delFlag", getDelFlag())
             .append("createBy", getCreateBy())

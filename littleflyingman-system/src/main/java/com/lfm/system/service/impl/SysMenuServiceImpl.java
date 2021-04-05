@@ -180,9 +180,9 @@ public class SysMenuServiceImpl implements ISysMenuService
     {
         List<SysMenu> returnList = new ArrayList<SysMenu>();
         List<Long> tempList = new ArrayList<Long>();
-        for (SysMenu college : menus)
+        for (SysMenu school : menus)
         {
-            tempList.add(college.getMenuId());
+            tempList.add(school.getMenuId());
         }
         for (Iterator<SysMenu> iterator = menus.iterator(); iterator.hasNext();)
         {

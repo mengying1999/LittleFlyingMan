@@ -86,7 +86,7 @@ public class DataScopeAspect
             // 如果是超级管理员，则不过滤数据
             if (StringUtils.isNotNull(currentUser) && !currentUser.isAdmin())
             {
-                dataScopeFilter(joinPoint, currentUser, controllerDataScope.collegeAlias(),
+                dataScopeFilter(joinPoint, currentUser, controllerDataScope.schoolAlias(),
                         controllerDataScope.userAlias());
             }
         }
@@ -99,7 +99,7 @@ public class DataScopeAspect
      * @param user 用户
      * @param userAlias 别名
      */
-    public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String collegeAlias, String userAlias)
+    public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String schoolAlias, String userAlias)
     {
         StringBuilder sqlString = new StringBuilder();
 
@@ -114,18 +114,18 @@ public class DataScopeAspect
             else if (DATA_SCOPE_CUSTOM.equals(dataScope))
             {
                 sqlString.append(StringUtils.format(
-                        " OR {}.college_id IN ( SELECT college_id FROM sys_role_college WHERE role_id = {} ) ", collegeAlias,
+                        " OR {}.school_id IN ( SELECT school_id FROM sys_role_school WHERE role_id = {} ) ", schoolAlias,
                         role.getRoleId()));
             }
             else if (DATA_SCOPE_DEPT.equals(dataScope))
             {
-                sqlString.append(StringUtils.format(" OR {}.college_id = {} ", collegeAlias, user.getCollegeId()));
+                sqlString.append(StringUtils.format(" OR {}.school_id = {} ", schoolAlias, user.getSchoolId()));
             }
             else if (DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope))
             {
                 sqlString.append(StringUtils.format(
-                        " OR {}.college_id IN ( SELECT college_id FROM sys_college WHERE college_id = {} or find_in_set( {} , ancestors ) )",
-                        collegeAlias, user.getCollegeId(), user.getCollegeId()));
+                        " OR {}.school_id IN ( SELECT school_id FROM sys_school WHERE school_id = {} or find_in_set( {} , ancestors ) )",
+                        schoolAlias, user.getSchoolId(), user.getSchoolId()));
             }
             else if (DATA_SCOPE_SELF.equals(dataScope))
             {

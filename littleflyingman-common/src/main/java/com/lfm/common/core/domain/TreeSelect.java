@@ -1,7 +1,6 @@
 package com.lfm.common.core.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.lfm.common.core.domain.entity.SysCollege;
 import com.lfm.common.core.domain.entity.SysMenu;
 
 import java.io.Serializable;
@@ -29,13 +28,6 @@ public class TreeSelect implements Serializable
     public TreeSelect()
     {
 
-    }
-
-    public TreeSelect(SysCollege college)
-    {
-        this.id = college.getCollegeId();
-        this.label = college.getCollegeName();
-        this.children = college.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
     public TreeSelect(SysMenu menu)

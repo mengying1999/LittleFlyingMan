@@ -49,7 +49,7 @@ public class SysOperLog extends BaseEntity
 
     /** 学院名称 */
     @Excel(name = "学院名称")
-    private String collegeName;
+    private String schoolName;
 
     /** 请求url */
     @Excel(name = "请求地址")
@@ -164,14 +164,14 @@ public class SysOperLog extends BaseEntity
         this.operName = operName;
     }
 
-    public String getCollegeName()
+    public String getSchoolName()
     {
-        return collegeName;
+        return schoolName;
     }
 
-    public void setCollegeName(String collegeName)
+    public void setSchoolName(String schoolName)
     {
-        this.collegeName = collegeName;
+        this.schoolName = schoolName;
     }
 
     public String getOperUrl()

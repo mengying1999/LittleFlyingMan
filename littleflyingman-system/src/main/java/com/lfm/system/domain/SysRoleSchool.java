@@ -4,17 +4,17 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * 角色和学院关联 sys_role_college
+ * 角色和学院关联 sys_role_school
  * 
  *
  */
-public class SysRoleCollege
+public class SysRoleSchool
 {
     /** 角色ID */
     private Long roleId;
     
     /** 学院ID */
-    private Long collegeId;
+    private Long schoolId;
 
     public Long getRoleId()
     {
@@ -26,21 +26,21 @@ public class SysRoleCollege
         this.roleId = roleId;
     }
 
-    public Long getCollegeId()
+    public Long getSchoolId()
     {
-        return collegeId;
+        return schoolId;
     }
 
-    public void setCollegeId(Long collegeId)
+    public void setSchoolId(Long schoolId)
     {
-        this.collegeId = collegeId;
+        this.schoolId = schoolId;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("roleId", getRoleId())
-            .append("collegeId", getCollegeId())
+            .append("schoolId", getSchoolId())
             .toString();
     }
 }

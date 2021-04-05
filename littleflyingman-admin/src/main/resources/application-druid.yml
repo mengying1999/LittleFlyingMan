@@ -6,7 +6,7 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://117.78.0.140:3306/lfm?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                url: jdbc:mysql://114.116.234.68:3306/lfm?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: lfm
                 password: 123456
             # 从库数据源
@@ -55,3 +55,7 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
+            test-on-borrow:
+                true
+            test-while-idle:
+                true

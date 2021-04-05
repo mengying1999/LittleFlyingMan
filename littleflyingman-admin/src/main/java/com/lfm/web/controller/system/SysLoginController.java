@@ -11,6 +11,8 @@ import com.lfm.framework.web.service.SysLoginService;
 import com.lfm.framework.web.service.SysPermissionService;
 import com.lfm.framework.web.service.TokenService;
 import com.lfm.system.service.ISysMenuService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +27,7 @@ import java.util.Set;
  * 
  *
  */
+@Api("登录管理")
 @RestController
 public class SysLoginController
 {
@@ -46,6 +49,7 @@ public class SysLoginController
      * @param loginBody 登录信息
      * @return 结果
      */
+    @ApiOperation("登录")
     @PostMapping("/login")
     public AjaxResult login(@RequestBody LoginBody loginBody)
     {
@@ -62,6 +66,7 @@ public class SysLoginController
      * 
      * @return 用户信息
      */
+    @ApiOperation("获取用户信息")
     @GetMapping("getInfo")
     public AjaxResult getInfo()
     {
@@ -83,6 +88,7 @@ public class SysLoginController
      * 
      * @return 路由信息
      */
+    @ApiOperation("获取路由信息")
     @GetMapping("getRouters")
     public AjaxResult getRouters()
     {

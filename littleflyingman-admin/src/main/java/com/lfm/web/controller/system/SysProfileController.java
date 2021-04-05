@@ -45,7 +45,7 @@ public class SysProfileController extends BaseController
         SysUser user = loginUser.getUser();
         AjaxResult ajax = AjaxResult.success(user);
         ajax.put("roleGroup", userService.selectUserRoleGroup(loginUser.getUsername()));
-        ajax.put("postGroup", userService.selectUserPostGroup(loginUser.getUsername()));
+//        ajax.put("postGroup", userService.selectUserPostGroup(loginUser.getUsername()));
         return ajax;
     }
 
@@ -60,8 +60,8 @@ public class SysProfileController extends BaseController
         {
             LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
             // 更新缓存用户信息
-            loginUser.getUser().setNickName(user.getNickName());
-            loginUser.getUser().setPhonenumber(user.getPhonenumber());
+            loginUser.getUser().setUserNick(user.getUserNick());
+            loginUser.getUser().setPhoneNumber(user.getPhoneNumber());
             loginUser.getUser().setEmail(user.getEmail());
             loginUser.getUser().setSex(user.getSex());
             tokenService.setLoginUser(loginUser);

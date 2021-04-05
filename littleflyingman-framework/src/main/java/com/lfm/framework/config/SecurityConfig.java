@@ -84,6 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      * rememberMe          |   允许通过remember-me登录的用户访问
      * authenticated       |   用户登录后可访问
      */
+    // 请求授权的规则
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception
     {
@@ -96,7 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求
                 .authorizeRequests()
-                // 对于登录login 验证码captchaImage 允许匿名访问
+                // 对于登录login 验证码UserNick 允许匿名访问
                 .antMatchers("/login", "/captchaImage").anonymous()
                 .antMatchers(
                         HttpMethod.GET,
@@ -138,6 +139,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     /**
      * 身份认证接口
      */
+    // 认证的规则
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception
     {

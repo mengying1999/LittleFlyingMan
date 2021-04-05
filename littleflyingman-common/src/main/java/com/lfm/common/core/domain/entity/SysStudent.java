@@ -3,7 +3,7 @@ package com.lfm.common.core.domain.entity;
 import com.lfm.common.annotation.Excel;
 import com.lfm.common.annotation.Excels;
 import com.lfm.common.core.domain.BaseEntity;
-import com.lfm.common.core.domain.entity.SysCollege;
+import com.lfm.common.core.domain.entity.SysSchool;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lfm.common.annotation.Excel.Type;
@@ -22,8 +22,8 @@ public class SysStudent extends BaseEntity
     private Long studentId;
 
     /** 学院id */
-    @Excel(name = "学院id")
-    private Long collegeId;
+    @Excel(name = "学校id")
+    private Long schoolId;
 
     /** 学生姓名 */
     @Excel(name = "学生姓名")
@@ -62,31 +62,29 @@ public class SysStudent extends BaseEntity
 
     /** 学院对象 */
     @Excels({
-            @Excel(name = "学院名称", targetAttr = "collegeName", type = Type.EXPORT)
+            @Excel(name = "学校名称", targetAttr = "schoolName", type = Type.EXPORT)
     })
-    private SysCollege college;
+    private SysSchool school;
 
     public void setStudentId(Long studentId)
     {
         this.studentId = studentId;
     }
 
-    public Long getStudentId()
-    {
+    public Long getStudentId() {
         return studentId;
     }
-    public void setCollegeId(Long collegeId)
-    {
-        this.collegeId = collegeId;
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
-    public Long getCollegeId()
-    {
-        return collegeId;
+    public SysSchool getSchool() {
+        return school;
     }
-    public void setStudentName(String studentName)
-    {
-        this.studentName = studentName;
+
+    public void setSchool(SysSchool school) {
+        this.school = school;
     }
 
     public String getStudentName()
@@ -166,19 +164,19 @@ public class SysStudent extends BaseEntity
         return delFlag;
     }
 
-    public SysCollege getCollege() {
-        return college;
+    public Long getSchoolId() {
+        return schoolId;
     }
 
-    public void setCollege(SysCollege college) {
-        this.college = college;
+    public void setSchoolId(Long schoolId) {
+        this.schoolId = schoolId;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("studentId", getStudentId())
-                .append("collegeId", getCollegeId())
+                .append("schoolId", getSchoolId())
                 .append("studentName", getStudentName())
                 .append("studentNumber", getStudentNumber())
                 .append("email", getEmail())
@@ -193,7 +191,7 @@ public class SysStudent extends BaseEntity
                 .append("updateBy", getUpdateBy())
                 .append("updateTime", getUpdateTime())
                 .append("remark", getRemark())
-                .append("college", getCollege())
+                .append("school", getSchool())
                 .toString();
     }
 }

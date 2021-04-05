@@ -1,6 +1,6 @@
 package com.lfm.system.mapper;
 
-import com.lfm.system.domain.SysRoleCollege;
+import com.lfm.system.domain.SysRoleSchool;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * 
  *
  */
-public interface SysRoleCollegeMapper
+public interface SysRoleSchoolMapper
 {
     /**
      * 通过角色ID删除角色和学院关联
@@ -17,7 +17,7 @@ public interface SysRoleCollegeMapper
      * @param roleId 角色ID
      * @return 结果
      */
-    public int deleteRoleCollegeByRoleId(Long roleId);
+    public int deleteRoleSchoolByRoleId(Long roleId);
 
     /**
      * 批量删除角色学院关联信息
@@ -25,21 +25,21 @@ public interface SysRoleCollegeMapper
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteRoleCollege(Long[] ids);
+    public int deleteRoleSchool(Long[] ids);
 
     /**
      * 查询学院使用数量
      * 
-     * @param collegeId 学院ID
+     * @param schoolId 学院ID
      * @return 结果
      */
-    public int selectCountRoleCollegeByCollegeId(Long collegeId);
+    public int selectCountRoleSchoolBySchoolId(Long schoolId);
 
     /**
      * 批量新增角色学院信息
      * 
-     * @param roleCollegeList 角色学院列表
+     * @param roleSchoolList 角色学院列表
      * @return 结果
      */
-    public int batchRoleCollege(List<SysRoleCollege> roleCollegeList);
+    public int batchRoleSchool(List<SysRoleSchool> roleSchoolList);
 }

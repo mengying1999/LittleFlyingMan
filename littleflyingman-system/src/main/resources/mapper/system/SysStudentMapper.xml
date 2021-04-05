@@ -6,7 +6,7 @@
 
     <resultMap type="SysStudent" id="SysStudentResult">
         <result property="studentId"    column="student_id"    />
-        <result property="collegeId"    column="college_id"    />
+        <result property="schoolId"    column="school_id"    />
         <result property="studentName"    column="student_name"    />
         <result property="studentNumber"    column="student_number"    />
         <result property="email"    column="email"    />
@@ -21,28 +21,27 @@
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="remark"    column="remark"    />
-        <association property="college"    column="college_id" javaType="SysCollege" resultMap="collegeResult" />
+        <association property="school"    column="school_id" javaType="SysSchool" resultMap="schoolResult" />
     </resultMap>
 
-    <resultMap id="collegeResult" type="SysCollege">
-        <id     property="collegeId"   column="college_id"     />
+    <resultMap id="schoolResult" type="SysSchool">
+        <id     property="schoolId"   column="school_id"     />
         <result property="parentId" column="parent_id"   />
-        <result property="collegeName" column="college_name"   />
-        <result property="orderNum" column="order_num"   />
-        <result property="status"   column="college_status" />
+        <result property="schoolName" column="school_name"   />
+        <result property="status"   column="school_status" />
     </resultMap>
 
     <sql id="selectSysStudentVo">
-        select s.student_id, s.college_id, s.student_name, s.student_number, s.email, s.phone_number, s.sex, s.avatar, s.password, s.status, s.del_flag, s.create_by, s.create_time, s.update_by, s.update_time, s.remark,
-        d.college_id, d.parent_id, d.college_name, d.order_num, d.status as college_status
+        select s.student_id, s.school_id, s.student_name, s.student_number, s.email, s.phone_number, s.sex, s.avatar, s.password, s.status, s.del_flag, s.create_by, s.create_time, s.update_by, s.update_time, s.remark,
+        d.school_id,   d.school_name,   d.status as school_status
         from sys_student s
-            left join sys_college d on s.college_id = d.college_id
+            left join sys_school d on s.school_id = d.school_id
     </sql>
 
     <select id="selectSysStudentList" parameterType="SysStudent" resultMap="SysStudentResult">
         <include refid="selectSysStudentVo"/>
         <where>
-            <if test="collegeId != null "> and s.college_id = #{collegeId}</if>
+            <if test="schoolId != null "> and s.school_id = #{schoolId}</if>
             <if test="studentName != null  and studentName != ''"> and s.student_name like concat('%', #{studentName}, '%')</if>
             <if test="studentNumber != null  and studentNumber != ''"> and s.student_number = #{studentNumber}</if>
             <if test="email != null  and email != ''"> and s.email = #{email}</if>
@@ -62,7 +61,7 @@
     <insert id="insertSysStudent" parameterType="SysStudent" useGeneratedKeys="true" keyProperty="studentId">
         insert into sys_student
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="collegeId != null">college_id,</if>
+            <if test="schoolId != null">school_id,</if>
             <if test="studentName != null and studentName != ''">student_name,</if>
             <if test="studentNumber != null and studentNumber != ''">student_number,</if>
             <if test="email != null">email,</if>
@@ -79,7 +78,7 @@
             <if test="remark != null">remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="collegeId != null">#{collegeId},</if>
+            <if test="schoolId != null">#{schoolId},</if>
             <if test="studentName != null and studentName != ''">#{studentName},</if>
             <if test="studentNumber != null and studentNumber != ''">#{studentNumber},</if>
             <if test="email != null">#{email},</if>
@@ -100,7 +99,7 @@
     <update id="updateSysStudent" parameterType="SysStudent">
         update sys_student
         <trim prefix="SET" suffixOverrides=",">
-            <if test="collegeId != null">college_id = #{collegeId},</if>
+            <if test="schoolId != null">school_id = #{schoolId},</if>
             <if test="studentName != null and studentName != ''">student_name = #{studentName},</if>
             <if test="studentNumber != null and studentNumber != ''">student_number = #{studentNumber},</if>
             <if test="email != null">email = #{email},</if>

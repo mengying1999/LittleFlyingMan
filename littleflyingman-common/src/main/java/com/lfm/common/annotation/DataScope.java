@@ -15,7 +15,7 @@ public @interface DataScope
     /**
      * 学院表的别名
      */
-    public String collegeAlias() default "";
+    public String schoolAlias() default "";
 
     /**
      * 用户表的别名

@@ -11,7 +11,7 @@ public class SysUserOnline
     private String tokenId;
 
     /** 学院名称 */
-    private String collegeName;
+    private String schoolName;
 
     /** 用户名称 */
     private String userName;
@@ -41,14 +41,14 @@ public class SysUserOnline
         this.tokenId = tokenId;
     }
 
-    public String getCollegeName()
+    public String getSchoolName()
     {
-        return collegeName;
+        return schoolName;
     }
 
-    public void setCollegeName(String collegeName)
+    public void setSchoolName(String schoolName)
     {
-        this.collegeName = collegeName;
+        this.schoolName = schoolName;
     }
 
     public String getUserName()

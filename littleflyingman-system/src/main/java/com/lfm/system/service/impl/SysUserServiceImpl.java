@@ -38,8 +38,8 @@ public class SysUserServiceImpl implements ISysUserService
     @Autowired
     private SysRoleMapper roleMapper;
 
-    @Autowired
-    private SysPostMapper postMapper;
+//    @Autowired
+//    private SysPostMapper postMapper;
 
     @Autowired
     private SysUserRoleMapper userRoleMapper;
@@ -57,7 +57,7 @@ public class SysUserServiceImpl implements ISysUserService
      * @return 用户信息集合信息
      */
     @Override
-    @DataScope(collegeAlias = "d", userAlias = "u")
+    @DataScope(schoolAlias = "d", userAlias = "u")
     public List<SysUser> selectUserList(SysUser user)
     {
         return userMapper.selectUserList(user);
@@ -109,27 +109,27 @@ public class SysUserServiceImpl implements ISysUserService
         return idsStr.toString();
     }
 
-    /**
-     * 查询用户所属岗位组
-     * 
-     * @param userName 用户名
-     * @return 结果
-     */
-    @Override
-    public String selectUserPostGroup(String userName)
-    {
-        List<SysPost> list = postMapper.selectPostsByUserName(userName);
-        StringBuffer idsStr = new StringBuffer();
-        for (SysPost post : list)
-        {
-            idsStr.append(post.getPostName()).append(",");
-        }
-        if (StringUtils.isNotEmpty(idsStr.toString()))
-        {
-            return idsStr.substring(0, idsStr.length() - 1);
-        }
-        return idsStr.toString();
-    }
+//    /**
+//     * 查询用户所属岗位组
+//     *
+//     * @param userName 用户名
+//     * @return 结果
+//     */
+//    @Override
+//    public String selectUserPostGroup(String userName)
+//    {
+//        List<SysPost> list = postMapper.selectPostsByUserName(userName);
+//        StringBuffer idsStr = new StringBuffer();
+//        for (SysPost post : list)
+//        {
+//            idsStr.append(post.getPostName()).append(",");
+//        }
+//        if (StringUtils.isNotEmpty(idsStr.toString()))
+//        {
+//            return idsStr.substring(0, idsStr.length() - 1);
+//        }
+//        return idsStr.toString();
+//    }
 
     /**
      * 校验用户名称是否唯一
@@ -158,7 +158,7 @@ public class SysUserServiceImpl implements ISysUserService
     public String checkPhoneUnique(SysUser user)
     {
         Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
-        SysUser info = userMapper.checkPhoneUnique(user.getPhonenumber());
+        SysUser info = userMapper.checkPhoneUnique(user.getPhoneNumber());
         if (StringUtils.isNotNull(info) && info.getUserId().longValue() != userId.longValue())
         {
             return UserConstants.NOT_UNIQUE;
@@ -210,8 +210,6 @@ public class SysUserServiceImpl implements ISysUserService
     {
         // 新增用户信息
         int rows = userMapper.insertUser(user);
-        // 新增用户岗位关联
-        insertUserPost(user);
         // 新增用户与角色管理
         insertUserRole(user);
         return rows;
@@ -234,8 +232,8 @@ public class SysUserServiceImpl implements ISysUserService
         insertUserRole(user);
         // 删除用户与岗位关联
         userPostMapper.deleteUserPostByUserId(userId);
-        // 新增用户与岗位管理
-        insertUserPost(user);
+//        // 新增用户与岗位管理
+//        insertUserPost(user);
         return userMapper.updateUser(user);
     }
 
@@ -327,31 +325,31 @@ public class SysUserServiceImpl implements ISysUserService
         }
     }
 
-    /**
-     * 新增用户岗位信息
-     * 
-     * @param user 用户对象
-     */
-    public void insertUserPost(SysUser user)
-    {
-        Long[] posts = user.getPostIds();
-        if (StringUtils.isNotNull(posts))
-        {
-            // 新增用户与岗位管理
-            List<SysUserPost> list = new ArrayList<SysUserPost>();
-            for (Long postId : posts)
-            {
-                SysUserPost up = new SysUserPost();
-                up.setUserId(user.getUserId());
-                up.setPostId(postId);
-                list.add(up);
-            }
-            if (list.size() > 0)
-            {
-                userPostMapper.batchUserPost(list);
-            }
-        }
-    }
+//    /**
+//     * 新增用户岗位信息
+//     *
+//     * @param user 用户对象
+//     */
+//    public void insertUserPost(SysUser user)
+//    {
+//        Long[] posts = user.getPostIds();
+//        if (StringUtils.isNotNull(posts))
+//        {
+//            // 新增用户与岗位管理
+//            List<SysUserPost> list = new ArrayList<SysUserPost>();
+//            for (Long postId : posts)
+//            {
+//                SysUserPost up = new SysUserPost();
+//                up.setUserId(user.getUserId());
+//                up.setPostId(postId);
+//                list.add(up);
+//            }
+//            if (list.size() > 0)
+//            {
+//                userPostMapper.batchUserPost(list);
+//            }
+//        }
+//    }
 
     /**
      * 通过用户ID删除用户

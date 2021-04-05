@@ -30,8 +30,8 @@ public class SysUser extends BaseEntity
     private Long userId;
 
     /** 学院ID */
-    @Excel(name = "学院编号", type = Type.IMPORT)
-    private Long collegeId;
+    @Excel(name = "学校编号", type = Type.IMPORT)
+    private Long schoolId;
 
     /** 用户账号 */
     @Excel(name = "登录名称")
@@ -39,15 +39,14 @@ public class SysUser extends BaseEntity
 
     /** 用户昵称 */
     @Excel(name = "用户名称")
-    private String nickName;
-
+    private String userNick;
     /** 用户邮箱 */
     @Excel(name = "用户邮箱")
     private String email;
 
     /** 手机号码 */
     @Excel(name = "手机号码")
-    private String phonenumber;
+    private String phoneNumber;
 
     /** 用户性别 */
     @Excel(name = "用户性别", readConverterExp = "0=男,1=女,2=未知")
@@ -79,18 +78,15 @@ public class SysUser extends BaseEntity
 
     /** 学院对象 */
     @Excels({
-        @Excel(name = "学院名称", targetAttr = "collegeName", type = Type.EXPORT)
+        @Excel(name = "学校名称", targetAttr = "schoolName", type = Type.EXPORT)
     })
-    private SysCollege college;
+    private SysSchool school;
 
     /** 角色对象 */
     private List<SysRole> roles;
 
     /** 角色组 */
     private Long[] roleIds;
-
-    /** 岗位组 */
-    private Long[] postIds;
 
     public SysUser()
     {
@@ -122,25 +118,23 @@ public class SysUser extends BaseEntity
         return userId != null && 1L == userId;
     }
 
-    public Long getCollegeId()
-    {
-        return collegeId;
+    public Long getSchoolId() {
+        return schoolId;
     }
 
-    public void setCollegeId(Long collegeId)
-    {
-        this.collegeId = collegeId;
+    public void setSchoolId(Long schoolId) {
+        this.schoolId = schoolId;
     }
 
     @Size(min = 0, max = 30, message = "用户昵称长度不能超过30个字符")
-    public String getNickName()
+    public String getUserNick()
     {
-        return nickName;
+        return userNick;
     }
 
-    public void setNickName(String nickName)
+    public void setUserNick(String userNick)
     {
-        this.nickName = nickName;
+        this.userNick = userNick;
     }
 
     @NotBlank(message = "用户账号不能为空")
@@ -168,14 +162,14 @@ public class SysUser extends BaseEntity
     }
 
     @Size(min = 0, max = 11, message = "手机号码长度不能超过11个字符")
-    public String getPhonenumber()
+    public String getPhoneNumber()
     {
-        return phonenumber;
+        return phoneNumber;
     }
 
-    public void setPhonenumber(String phonenumber)
+    public void setPhoneNumber(String phoneNumber)
     {
-        this.phonenumber = phonenumber;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getSex()
@@ -260,14 +254,14 @@ public class SysUser extends BaseEntity
         this.loginDate = loginDate;
     }
 
-    public SysCollege getCollege()
+    public SysSchool getSchool()
     {
-        return college;
+        return school;
     }
 
-    public void setCollege(SysCollege college)
+    public void setSchool(SysSchool school)
     {
-        this.college = college;
+        this.school = school;
     }
 
     public List<SysRole> getRoles()
@@ -290,25 +284,16 @@ public class SysUser extends BaseEntity
         this.roleIds = roleIds;
     }
 
-    public Long[] getPostIds()
-    {
-        return postIds;
-    }
-
-    public void setPostIds(Long[] postIds)
-    {
-        this.postIds = postIds;
-    }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("userId", getUserId())
-            .append("collegeId", getCollegeId())
+            .append("schoolId", getSchoolId())
             .append("userName", getUserName())
-            .append("nickName", getNickName())
+            .append("userNick", getUserNick())
             .append("email", getEmail())
-            .append("phonenumber", getPhonenumber())
+            .append("phoneNumber", getPhoneNumber())
             .append("sex", getSex())
             .append("avatar", getAvatar())
             .append("password", getPassword())
@@ -322,7 +307,7 @@ public class SysUser extends BaseEntity
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
             .append("remark", getRemark())
-            .append("college", getCollege())
+            .append("school", getSchool())
             .toString();
     }
 }
