@@ -126,4 +126,10 @@ public class SysSchoolServiceImpl implements ISysSchoolService
         return schoolMapper.deleteSchoolById(schoolId);
     }
 
+    @Override
+    public List<Integer> selectSchoolListByRoleId(Long roleId) {
+        SysRole role = roleMapper.selectRoleById(roleId);
+        return schoolMapper.selectSchoolListByRoleId(roleId);
+    }
+
 }

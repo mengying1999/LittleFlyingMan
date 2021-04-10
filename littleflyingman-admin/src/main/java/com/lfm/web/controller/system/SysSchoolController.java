@@ -81,6 +81,19 @@ public class SysSchoolController extends BaseController
     }
 
     /**
+     * 加载对应角色学院列表树
+     */
+    @GetMapping(value = "/roleSchoolListselect/{roleId}")
+    public AjaxResult roleCollegeTreeselect(@PathVariable("roleId") Long roleId)
+    {
+        List<SysSchool> schools = schoolService.selectSchoolList(new SysSchool());
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("checkedKeys", schoolService.selectSchoolListByRoleId(roleId));
+        ajax.put("schools",schools);
+        return ajax;
+    }
+
+    /**
      * 新增学院
      */
     @PreAuthorize("@ss.hasPermi('system:school:add')")

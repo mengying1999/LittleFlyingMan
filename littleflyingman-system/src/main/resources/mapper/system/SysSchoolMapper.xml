@@ -90,5 +90,10 @@
 	<delete id="deleteSchoolById" parameterType="Long">
 		update sys_school set del_flag = '2' where school_id = #{schoolId}
 	</delete>
-
+	<select id="selectSchoolListByRoleId" resultType="Integer">
+		select d.school_id
+		from sys_school d
+		left join sys_role_school rd on d.school_id = rd.school_id
+		where rd.role_id = #{roleId}
+	</select>
 </mapper> 

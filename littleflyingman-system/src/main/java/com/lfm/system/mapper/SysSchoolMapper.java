@@ -76,4 +76,13 @@ public interface SysSchoolMapper
      */
     public int deleteSchoolById(Long schoolId);
 
+
+    /**
+     * 根据角色ID查询学校信息
+     *
+     * @param roleId 角色ID
+     * @return 选中学院列表
+     */
+    public List<Integer> selectSchoolListByRoleId(@Param("roleId") Long roleId);
+
 }
