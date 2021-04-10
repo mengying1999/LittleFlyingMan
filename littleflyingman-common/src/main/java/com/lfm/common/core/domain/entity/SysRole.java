@@ -41,8 +41,8 @@ public class SysRole extends BaseEntity
     /** 菜单树选择项是否关联显示（ 0：父子不互相关联显示 1：父子互相关联显示） */
     private boolean menuCheckStrictly;
 
-    /** 学院树选择项是否关联显示（0：父子不互相关联显示 1：父子互相关联显示 ） */
-    private boolean schoolCheckStrictly;
+//    /** 学院树选择项是否关联显示（0：父子不互相关联显示 1：父子互相关联显示 ） */
+//    private boolean schoolCheckStrictly;
 
     /** 角色状态（0正常 1停用） */
     @Excel(name = "角色状态", readConverterExp = "0=正常,1=停用")
@@ -145,15 +145,15 @@ public class SysRole extends BaseEntity
         this.menuCheckStrictly = menuCheckStrictly;
     }
 
-    public boolean isSchoolCheckStrictly()
-    {
-        return schoolCheckStrictly;
-    }
-
-    public void setSchoolCheckStrictly(boolean schoolCheckStrictly)
-    {
-        this.schoolCheckStrictly = schoolCheckStrictly;
-    }
+//    public boolean isSchoolCheckStrictly()
+//    {
+//        return schoolCheckStrictly;
+//    }
+//
+//    public void setSchoolCheckStrictly(boolean schoolCheckStrictly)
+//    {
+//        this.schoolCheckStrictly = schoolCheckStrictly;
+//    }
 
     public String getStatus()
     {
@@ -214,7 +214,7 @@ public class SysRole extends BaseEntity
             .append("roleSort", getRoleSort())
             .append("dataScope", getDataScope())
             .append("menuCheckStrictly", isMenuCheckStrictly())
-            .append("schoolCheckStrictly", isSchoolCheckStrictly())
+//            .append("schoolCheckStrictly", isSchoolCheckStrictly())
             .append("status", getStatus())
             .append("delFlag", getDelFlag())
             .append("createBy", getCreateBy())

@@ -47,7 +47,7 @@
 
 	<select id="checkSchoolNameUnique" resultMap="SysSchoolResult">
 		<include refid="selectSchoolVo"/>
-		where school_name=#{schoolName} limit 1
+		WHERE del_flag = '0'and school_name=#{schoolName} limit 1
 	</select>
 
 	<insert id="insertSchool" parameterType="SysSchool">

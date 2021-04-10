@@ -266,12 +266,14 @@ public class SysRoleServiceImpl implements ISysRoleService
         int rows = 1;
         // 新增角色与学院（数据权限）管理
         List<SysRoleSchool> list = new ArrayList<SysRoleSchool>();
-        for (Long schoolId : role.getSchoolIds())
-        {
-            SysRoleSchool rd = new SysRoleSchool();
-            rd.setRoleId(role.getRoleId());
-            rd.setSchoolId(schoolId);
-            list.add(rd);
+        if (role.getSchoolIds() != null){
+            for (Long schoolId : role.getSchoolIds())
+            {
+                SysRoleSchool rd = new SysRoleSchool();
+                rd.setRoleId(role.getRoleId());
+                rd.setSchoolId(schoolId);
+                list.add(rd);
+            }
         }
         if (list.size() > 0)
         {

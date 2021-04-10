@@ -14,7 +14,7 @@ lfm:
   addressEnabled: false
   # 验证码类型 math 数组计算 char 字符验证
   captchaType: math
-  host: 117.78.0.140
+  host: 47.119.126.86
   port: 8888
 
 # 开发环境配置
@@ -132,4 +132,4 @@ fdfs:
     width: 150
     height: 150
   tracker-list: #TrackerList参数,支持多个
-  - 117.78.0.140:22122
+  - 47.119.126.86:22122
