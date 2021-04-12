@@ -91,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="checkPhoneUnique" parameterType="String" resultMap="SysUserResult">
-		select user_id, phoneNumber from sys_user where phoneNumber = #{phoneNumber} limit 1
+		select user_id, phone_number from sys_user where phone_number = #{phoneNumber} limit 1
 	</select>
 	
 	<select id="checkEmailUnique" parameterType="String" resultMap="SysUserResult">
@@ -106,7 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="userNick != null and userNick != ''">user_nick,</if>
  			<if test="email != null and email != ''">email,</if>
  			<if test="avatar != null and avatar != ''">avatar,</if>
- 			<if test="phoneNumber != null and phoneNumber != ''">phoneNumber,</if>
+ 			<if test="phoneNumber != null and phoneNumber != ''">phone_number,</if>
  			<if test="sex != null and sex != ''">sex,</if>
  			<if test="password != null and password != ''">password,</if>
  			<if test="status != null and status != ''">status,</if>
@@ -137,7 +137,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="userName != null and userName != ''">user_name = #{userName},</if>
  			<if test="userNick != null and userNick != ''">user_nick = #{userNick},</if>
  			<if test="email != null and email != ''">email = #{email},</if>
- 			<if test="phoneNumber != null and phoneNumber != ''">phoneNumber = #{phoneNumber},</if>
+ 			<if test="phoneNumber != null and phoneNumber != ''">phone_number = #{phoneNumber},</if>
  			<if test="sex != null and sex != ''">sex = #{sex},</if>
  			<if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
  			<if test="password != null and password != ''">password = #{password},</if>

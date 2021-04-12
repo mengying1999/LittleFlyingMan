@@ -83,6 +83,7 @@ public class SysSchoolController extends BaseController
     /**
      * 加载对应角色学院列表树
      */
+    @ApiOperation("获取学校列表")
     @GetMapping(value = "/roleSchoolListselect/{roleId}")
     public AjaxResult roleCollegeTreeselect(@PathVariable("roleId") Long roleId)
     {

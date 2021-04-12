@@ -26,7 +26,6 @@
 
     <resultMap id="schoolResult" type="SysSchool">
         <id     property="schoolId"   column="school_id"     />
-        <result property="parentId" column="parent_id"   />
         <result property="schoolName" column="school_name"   />
         <result property="status"   column="school_status" />
     </resultMap>
