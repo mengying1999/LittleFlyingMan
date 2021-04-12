@@ -44,8 +44,8 @@ public class SysUserServiceImpl implements ISysUserService
     @Autowired
     private SysUserRoleMapper userRoleMapper;
 
-    @Autowired
-    private SysUserPostMapper userPostMapper;
+//    @Autowired
+//    private SysUserPostMapper userPostMapper;
 
     @Autowired
     private ISysConfigService configService;
@@ -230,8 +230,8 @@ public class SysUserServiceImpl implements ISysUserService
         userRoleMapper.deleteUserRoleByUserId(userId);
         // 新增用户与角色管理
         insertUserRole(user);
-        // 删除用户与岗位关联
-        userPostMapper.deleteUserPostByUserId(userId);
+//        // 删除用户与岗位关联
+//        userPostMapper.deleteUserPostByUserId(userId);
 //        // 新增用户与岗位管理
 //        insertUserPost(user);
         return userMapper.updateUser(user);
@@ -362,8 +362,8 @@ public class SysUserServiceImpl implements ISysUserService
     {
         // 删除用户与角色关联
         userRoleMapper.deleteUserRoleByUserId(userId);
-        // 删除用户与岗位表
-        userPostMapper.deleteUserPostByUserId(userId);
+//        // 删除用户与岗位表
+//        userPostMapper.deleteUserPostByUserId(userId);
         return userMapper.deleteUserById(userId);
     }
 

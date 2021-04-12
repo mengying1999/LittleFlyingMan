@@ -42,8 +42,8 @@ public class SysUserController extends BaseController
     @Autowired
     private ISysRoleService roleService;
 
-    @Autowired
-    private ISysPostService postService;
+//    @Autowired
+//    private ISysPostService postService;
 
     @Autowired
     private TokenService tokenService;
