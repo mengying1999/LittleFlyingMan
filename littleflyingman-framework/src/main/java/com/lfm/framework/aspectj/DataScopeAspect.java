@@ -124,7 +124,7 @@ public class DataScopeAspect
             else if (DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope))
             {
                 sqlString.append(StringUtils.format(
-                        " OR {}.school_id IN ( SELECT school_id FROM sys_school WHERE school_id = {} or find_in_set( {} , ancestors ) )",
+                        " OR {}.school_id IN ( SELECT school_id FROM sys_school WHERE school_id = {})",
                         schoolAlias, user.getSchoolId(), user.getSchoolId()));
             }
             else if (DATA_SCOPE_SELF.equals(dataScope))
