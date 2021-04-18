@@ -106,6 +106,54 @@ public class ActPrintController extends BaseController
     }
 
     /**
+     *  修改为打印状态
+     */
+    @ApiOperation("修改为打印状态")
+    @PreAuthorize("@ss.hasPermi('feedback:print:edit')")
+    @Log(title = "修改为打印状态", businessType = BusinessType.UPDATE)
+    @PutMapping("editPrintStatus")
+    public AjaxResult editPrintStatus(@RequestBody ActPrint actPrint)
+    {
+        return toAjax(actPrintService.updatePrintStatus(actPrint));
+    }
+
+    /**
+     * 修改为配送状态
+     */
+    @ApiOperation("修改为配送状态")
+    @PreAuthorize("@ss.hasPermi('feedback:print:edit')")
+    @Log(title = "修改为配送状态", businessType = BusinessType.UPDATE)
+    @PutMapping("editDeliveryStatus")
+    public AjaxResult editDeliveryStatus(@RequestBody ActPrint actPrint)
+    {
+        return toAjax(actPrintService.updateDeliveryStatus(actPrint));
+    }
+
+    /**
+     * 修改为完成状态
+     */
+    @ApiOperation("修改为完成状态")
+    @PreAuthorize("@ss.hasPermi('feedback:print:edit')")
+    @Log(title = "修改为完成状态", businessType = BusinessType.UPDATE)
+    @PutMapping("editFinishStatus")
+    public AjaxResult editFinishStatus(@RequestBody ActPrint actPrint)
+    {
+        return toAjax(actPrintService.updateFinishStatus(actPrint));
+    }
+
+    /**
+     * 修改为完成状态
+     */
+    @ApiOperation("取消订单")
+    @PreAuthorize("@ss.hasPermi('feedback:print:edit')")
+    @Log(title = "取消订单", businessType = BusinessType.UPDATE)
+    @PutMapping("editCancelStatus")
+    public AjaxResult editCancelStatus(@RequestBody ActPrint actPrint)
+    {
+        return toAjax(actPrintService.updateCancelStatus(actPrint));
+    }
+
+    /**
      * 删除打印订单
      */
     @ApiOperation("删除打印订单")

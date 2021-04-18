@@ -20,6 +20,7 @@
         <result property="status"    column="status"    />
         <result property="addressId"    column="address_id"    />
         <result property="coverColor"    column="cover_color"    />
+        <result property="coverFlag"    column="cover_flag"    />
         <result property="fee"    column="fee"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
@@ -30,11 +31,17 @@
         <result property="takeNumber"    column="take_number"    />
         <result property="takeName"    column="take_name"    />
         <result property="studentName"    column="student_name"/>
+        <result property="payTime"    column="pay_time"    />
+        <result property="printTime"    column="print_time"    />
+        <result property="deliveryTime"    column="delivery_time"    />
+        <result property="finishTime"    column="finish_time"    />
+        <result property="cancelTime"    column="cancel_time"    />
         <association property="userPrint" column="user_print_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
         <association property="userDelivery" column="user_delivery_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
     </resultMap>
     <sql id="selectActPrintVo">
         select p.print_id, p.student_id, p.file_name, p.file_url, p.user_print_id, p.user_delivery_id, p.print_number, p.both_side_flag, p.color_flag, p.sealing_flag, p.paper_size, p.student_remark, p.status, p.address_id, p.cover_color, p.fee, p.create_by, p.create_time, p.update_by, p.update_time, p.remark,
+            p.cover_flag,p.pay_time,p.print_time,p.delivery_time,p.finish_time,p.cancel_time,
             a.address_id,a.address ,a.take_number,a.take_name,
             s.student_id,s.student_name
         from act_print p
@@ -59,6 +66,7 @@
             <if test="status != null  and status != ''"> and p.status = #{status}</if>
             <if test="addressId != null "> and p.address_id = #{addressId}</if>
             <if test="coverColor != null  and coverColor != ''"> and p.cover_color = #{coverColor}</if>
+            <if test="coverFlag != null  and coverFlag != ''"> and p.cover_flag = #{coverFlag}</if>
             <if test="fee != null "> and p.fee = #{fee}</if>
             <if test="address != null">
                 and a.address like concat('%', #{address}, '%')
@@ -103,11 +111,17 @@
             <if test="status != null">status,</if>
             <if test="addressId != null">address_id,</if>
             <if test="coverColor != null">cover_color,</if>
+            <if test="coverFlag != null">cover_flag,</if>
             <if test="fee != null">fee,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="printTime != null">print_time,</if>
+            <if test="deliveryTime != null">delivery_time,</if>
+            <if test="finishTime != null">finish_time,</if>
+            <if test="cancelTime != null">cancel_time,</if>
             <if test="remark != null">remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -124,12 +138,18 @@
             <if test="studentRemark != null">#{studentRemark},</if>
             <if test="status != null">#{status},</if>
             <if test="addressId != null">#{addressId},</if>
+            <if test="coverFlag != null">#{coverFlag},</if>
             <if test="coverColor != null">#{coverColor},</if>
             <if test="fee != null">#{fee},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="printTime != null">#{printTime},</if>
+            <if test="deliveryTime != null">#{deliveryTime},</if>
+            <if test="finishTime != null">#{finishTime},</if>
+            <if test="cancelTime != null">#{cancelTime},</if>
             <if test="remark != null">#{remark},</if>
         </trim>
     </insert>
@@ -151,11 +171,17 @@
             <if test="status != null">status = #{status},</if>
             <if test="addressId != null">address_id = #{addressId},</if>
             <if test="coverColor != null">cover_color = #{coverColor},</if>
+            <if test="coverFlag != null">cover_flag = #{coverFlag},</if>
             <if test="fee != null">fee = #{fee},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="printTime != null">print_time = #{printTime},</if>
+            <if test="deliveryTime != null">delivery_time = #{deliveryTime},</if>
+            <if test="finishTime != null">finish_time = #{finishTime},</if>
+            <if test="cancelTime != null">cancel_time = #{cancelTime},</if>
             <if test="remark != null">remark = #{remark},</if>
         </trim>
         where print_id = #{printId}

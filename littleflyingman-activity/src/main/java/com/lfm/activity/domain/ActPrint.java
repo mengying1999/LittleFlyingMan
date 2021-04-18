@@ -8,6 +8,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lfm.common.annotation.Excel;
 import com.lfm.common.core.domain.BaseEntity;
 import com.lfm.common.annotation.Excel.Type;
+
+import java.util.Date;
+
 /**
  * 打印订单对象 act_print
  *
@@ -72,6 +75,7 @@ public class ActPrint extends BaseEntity
     @Excel(name = "封胶标志(0非封胶，1封胶)")
     private String sealingFlag;
 
+
     /** 纸张大小 */
     @Excel(name = "纸张大小")
     private String paperSize;
@@ -107,6 +111,26 @@ public class ActPrint extends BaseEntity
     /** 金额 */
     @Excel(name = "金额")
     private Long fee;
+
+    /** 彩印标志(0黑白 1彩印) */
+    @Excel(name = "彩印标志(0封皮 1非封皮)")
+    private String coverFlag;
+    /** 彩印标志(0黑白 1彩印) */
+    @Excel(name = "支付时间")
+    private Date payTime;
+    /** 彩印标志(0黑白 1彩印) */
+    @Excel(name = "打印时间")
+    private Date printTime;
+    /** 彩印标志(0黑白 1彩印) */
+    @Excel(name = "配送时间")
+    private Date deliveryTime;
+    /** 彩印标志(0黑白 1彩印) */
+    @Excel(name = "收货时间")
+    private Date finishTime;
+    /** 彩印标志(0黑白 1彩印) */
+    @Excel(name = "取消时间")
+    private Date cancelTime;
+
 
     public void setPrintId(Long printId)
     {
@@ -301,6 +325,54 @@ public class ActPrint extends BaseEntity
         this.takeName = takeName;
     }
 
+    public String getCoverFlag() {
+        return coverFlag;
+    }
+
+    public void setCoverFlag(String coverFlag) {
+        this.coverFlag = coverFlag;
+    }
+
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
+
+    public Date getPrintTime() {
+        return printTime;
+    }
+
+    public void setPrintTime(Date printTime) {
+        this.printTime = printTime;
+    }
+
+    public Date getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public void setDeliveryTime(Date deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public Date getCancelTime() {
+        return cancelTime;
+    }
+
+    public void setCancelTime(Date cancelTime) {
+        this.cancelTime = cancelTime;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -319,6 +391,7 @@ public class ActPrint extends BaseEntity
                 .append("status", getStatus())
                 .append("addressId", getAddressId())
                 .append("coverColor", getCoverColor())
+                .append("coverFlag", getCoverFlag())
                 .append("fee", getFee())
                 .append("createBy", getCreateBy())
                 .append("createTime", getCreateTime())
@@ -330,7 +403,11 @@ public class ActPrint extends BaseEntity
                 .append("userDelivery", getUserDelivery())
                 .append("address", getAddress())
                 .append("takeName",getTakeName())
-                .append("takeNumber",getTakeNumber())
+                .append("payTime",getPayTime())
+                .append("printTime",getPrintTime())
+                .append("deliveryTime",getDeliveryTime())
+                .append("finishTime",getFinishTime())
+                .append("cancelTime",getCancelTime())
                 .toString();
     }
 }

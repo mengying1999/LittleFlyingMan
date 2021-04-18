@@ -49,12 +49,13 @@
             <if test="avatar != null  and avatar != ''"> and s.avatar = #{avatar}</if>
             <if test="password != null  and password != ''"> and s.password = #{password}</if>
             <if test="status != null  and status != ''"> and s.status = #{status}</if>
+            and s.del_flag = '0'
         </where>
     </select>
 
     <select id="selectSysStudentById" parameterType="Long" resultMap="SysStudentResult">
         <include refid="selectSysStudentVo"/>
-        where s.student_id = #{studentId}
+        where s.student_id = #{studentId} and s.del_flag = '0'
     </select>
 
     <insert id="insertSysStudent" parameterType="SysStudent" useGeneratedKeys="true" keyProperty="studentId">

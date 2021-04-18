@@ -214,6 +214,7 @@
                 <artifactId>fastdfs-client</artifactId>
                 <version>${fastdfs.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -37,7 +37,7 @@
 
 	<select id="selectSchoolById" parameterType="Long" resultMap="SysSchoolResult">
 		<include refid="selectSchoolVo"/>
-		where school_id = #{schoolId}
+		where school_id = #{schoolId} and s.del_flag = '0'
 	</select>
 
 	<select id="checkSchoolExistUser" parameterType="Long" resultType="int">

@@ -58,4 +58,12 @@ public interface IActPrintService
      * @return 结果
      */
     public int deleteActPrintById(Long printId);
+
+    public int updatePrintStatus(ActPrint actPrint);
+
+    public int updateDeliveryStatus(ActPrint actPrint);
+
+    public int updateFinishStatus(ActPrint actPrint);
+
+    public int updateCancelStatus(ActPrint actPrint);
 }

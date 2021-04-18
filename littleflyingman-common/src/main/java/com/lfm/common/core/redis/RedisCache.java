@@ -45,7 +45,7 @@ public class RedisCache
      */
     public <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit)
     {
-        redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
+        redisTemplate.opsForValue().set(key, value,timeout,timeUnit);
     }
 
     /**
@@ -188,6 +188,10 @@ public class RedisCache
     public <T> void setCacheMapValue(final String key, final String hKey, final T value)
     {
         redisTemplate.opsForHash().put(key, hKey, value);
+    }
+
+    public void removeCacheMapValue(String key,String fields) {
+        redisTemplate.opsForHash().delete(key,fields);
     }
 
     /**
