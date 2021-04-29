@@ -15,6 +15,7 @@
         <result property="bothSideFlag"    column="both_side_flag"    />
         <result property="colorFlag"    column="color_flag"    />
         <result property="sealingFlag"    column="sealing_flag"    />
+        <result property="delFlag"    column="del_flag"    />
         <result property="paperSize"    column="paper_size"    />
         <result property="studentRemark"    column="student_remark"    />
         <result property="status"    column="status"    />
@@ -40,7 +41,7 @@
         <association property="userDelivery" column="user_delivery_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
     </resultMap>
     <sql id="selectActPrintVo">
-        select p.print_id, p.student_id, p.file_name, p.file_url, p.user_print_id, p.user_delivery_id, p.print_number, p.both_side_flag, p.color_flag, p.sealing_flag, p.paper_size, p.student_remark, p.status, p.address_id, p.cover_color, p.fee, p.create_by, p.create_time, p.update_by, p.update_time, p.remark,
+        select p.print_id, p.student_id, p.file_name, p.file_url, p.user_print_id, p.user_delivery_id, p.print_number, p.both_side_flag, p.color_flag, p.sealing_flag, p.paper_size, p.student_remark, p.status, p.address_id, p.cover_color, p.fee, p.create_by, p.create_time, p.update_by, p.update_time, p.remark,p.del_flag,
             p.cover_flag,p.pay_time,p.print_time,p.delivery_time,p.finish_time,p.cancel_time,
             a.address_id,a.address ,a.take_number,a.take_name,
             s.student_id,s.student_name
@@ -57,6 +58,7 @@
             <if test="fileUrl != null  and fileUrl != ''"> and p.file_url = #{fileUrl}</if>
             <if test="userPrintId != null "> and p.user_print_id = #{userPrintId}</if>
             <if test="userDeliveryId != null "> and p.user_delivery_id = #{userDeliveryId}</if>
+            <if test="delFlag != null "> and p.del_flag = #{delFlag}</if>
             <if test="printNumber != null "> and p.print_number = #{printNumber}</if>
             <if test="bothSideFlag != null  and bothSideFlag != ''"> and p.both_side_flag = #{bothSideFlag}</if>
             <if test="colorFlag != null  and colorFlag != ''"> and p.color_flag = #{colorFlag}</if>
@@ -103,6 +105,7 @@
             <if test="userPrintId != null">user_print_id,</if>
             <if test="userDeliveryId != null">user_delivery_id,</if>
             <if test="printNumber != null">print_number,</if>
+            <if test="delFlag != null">del_flag,</if>
             <if test="bothSideFlag != null">both_side_flag,</if>
             <if test="colorFlag != null">color_flag,</if>
             <if test="sealingFlag != null">sealing_flag,</if>
@@ -131,6 +134,7 @@
             <if test="userPrintId != null">#{userPrintId},</if>
             <if test="userDeliveryId != null">#{userDeliveryId},</if>
             <if test="printNumber != null">#{printNumber},</if>
+            <if test="delFlag != null">#{delFlag},</if>
             <if test="bothSideFlag != null">#{bothSideFlag},</if>
             <if test="colorFlag != null">#{colorFlag},</if>
             <if test="sealingFlag != null">#{sealingFlag},</if>
@@ -170,6 +174,7 @@
             <if test="studentRemark != null">student_remark = #{studentRemark},</if>
             <if test="status != null">status = #{status},</if>
             <if test="addressId != null">address_id = #{addressId},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
             <if test="coverColor != null">cover_color = #{coverColor},</if>
             <if test="coverFlag != null">cover_flag = #{coverFlag},</if>
             <if test="fee != null">fee = #{fee},</if>

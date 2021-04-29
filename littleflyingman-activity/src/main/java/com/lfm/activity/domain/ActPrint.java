@@ -113,7 +113,7 @@ public class ActPrint extends BaseEntity
     private Long fee;
 
     /** 彩印标志(0黑白 1彩印) */
-    @Excel(name = "彩印标志(0封皮 1非封皮)")
+    @Excel(name = "封皮标志(0封皮 1非封皮)")
     private String coverFlag;
     /** 彩印标志(0黑白 1彩印) */
     @Excel(name = "支付时间")
@@ -130,7 +130,16 @@ public class ActPrint extends BaseEntity
     /** 彩印标志(0黑白 1彩印) */
     @Excel(name = "取消时间")
     private Date cancelTime;
+    /** 删除标志（0代表存在 2代表删除） */
+    private String delFlag;
 
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
+    }
 
     public void setPrintId(Long printId)
     {
@@ -408,6 +417,7 @@ public class ActPrint extends BaseEntity
                 .append("deliveryTime",getDeliveryTime())
                 .append("finishTime",getFinishTime())
                 .append("cancelTime",getCancelTime())
+                .append("delFlag",getDelFlag())
                 .toString();
     }
 }
