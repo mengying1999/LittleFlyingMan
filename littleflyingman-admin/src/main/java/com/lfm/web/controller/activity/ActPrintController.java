@@ -47,7 +47,7 @@ public class ActPrintController extends BaseController
      * 查询打印订单列表
      */
     @ApiOperation("获取打印订单列表")
-    @PreAuthorize("@ss.hasPermi('feedback:print:list')")
+    @PreAuthorize("@ss.hasPermi('activity:print:list')")
     @GetMapping("/list")
     public TableDataInfo list(ActPrint actPrint)
     {
@@ -60,7 +60,7 @@ public class ActPrintController extends BaseController
      * 导出打印订单列表
      */
     @ApiOperation("导出打印订单列表")
-    @PreAuthorize("@ss.hasPermi('feedback:print:export')")
+    @PreAuthorize("@ss.hasPermi('activity:print:export')")
     @Log(title = "打印订单", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(ActPrint actPrint)
@@ -74,7 +74,7 @@ public class ActPrintController extends BaseController
      * 获取打印订单详细信息
      */
     @ApiOperation("获取打印订单详细信息")
-    @PreAuthorize("@ss.hasPermi('feedback:print:query')")
+    @PreAuthorize("@ss.hasPermi('activity:print:query')")
     @GetMapping(value = "/{printId}")
     public AjaxResult getInfo(@PathVariable("printId") Long printId)
     {
@@ -85,7 +85,7 @@ public class ActPrintController extends BaseController
      * 新增打印订单
      */
     @ApiOperation("新增打印订单")
-    @PreAuthorize("@ss.hasPermi('feedback:print:add')")
+    @PreAuthorize("@ss.hasPermi('activity:print:add')")
     @Log(title = "打印订单", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ActPrint actPrint)
@@ -97,7 +97,7 @@ public class ActPrintController extends BaseController
      * 修改打印订单
      */
     @ApiOperation("修改打印订单")
-    @PreAuthorize("@ss.hasPermi('feedback:print:edit')")
+    @PreAuthorize("@ss.hasPermi('activity:print:edit')")
     @Log(title = "打印订单", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ActPrint actPrint)
@@ -109,7 +109,7 @@ public class ActPrintController extends BaseController
      *  修改为打印状态
      */
     @ApiOperation("修改为打印状态")
-    @PreAuthorize("@ss.hasPermi('feedback:print:edit')")
+    @PreAuthorize("@ss.hasPermi('activity:print:edit')")
     @Log(title = "修改为打印状态", businessType = BusinessType.UPDATE)
     @PutMapping("editPrintStatus")
     public AjaxResult editPrintStatus(@RequestBody ActPrint actPrint)
@@ -121,7 +121,7 @@ public class ActPrintController extends BaseController
      * 修改为配送状态
      */
     @ApiOperation("修改为配送状态")
-    @PreAuthorize("@ss.hasPermi('feedback:print:edit')")
+    @PreAuthorize("@ss.hasPermi('activity:print:edit')")
     @Log(title = "修改为配送状态", businessType = BusinessType.UPDATE)
     @PutMapping("editDeliveryStatus")
     public AjaxResult editDeliveryStatus(@RequestBody ActPrint actPrint)
@@ -133,7 +133,7 @@ public class ActPrintController extends BaseController
      * 修改为完成状态
      */
     @ApiOperation("修改为完成状态")
-    @PreAuthorize("@ss.hasPermi('feedback:print:edit')")
+    @PreAuthorize("@ss.hasPermi('activity:print:edit')")
     @Log(title = "修改为完成状态", businessType = BusinessType.UPDATE)
     @PutMapping("editFinishStatus")
     public AjaxResult editFinishStatus(@RequestBody ActPrint actPrint)
@@ -145,7 +145,7 @@ public class ActPrintController extends BaseController
      * 修改为完成状态
      */
     @ApiOperation("取消订单")
-    @PreAuthorize("@ss.hasPermi('feedback:print:edit')")
+    @PreAuthorize("@ss.hasPermi('activity:print:edit')")
     @Log(title = "取消订单", businessType = BusinessType.UPDATE)
     @PutMapping("editCancelStatus")
     public AjaxResult editCancelStatus(@RequestBody ActPrint actPrint)
@@ -157,7 +157,7 @@ public class ActPrintController extends BaseController
      * 删除打印订单
      */
     @ApiOperation("删除打印订单")
-    @PreAuthorize("@ss.hasPermi('feedback:print:remove')")
+    @PreAuthorize("@ss.hasPermi('activity:print:remove')")
     @Log(title = "打印订单", businessType = BusinessType.DELETE)
     @DeleteMapping("/{printIds}")
     public AjaxResult remove(@PathVariable Long[] printIds)

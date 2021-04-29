@@ -5,17 +5,20 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeRefundModel;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeRefundResponse;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.lfm.activity.domain.ActPrint;
 import com.lfm.activity.domain.DshOrder;
 import com.lfm.activity.service.IActPrintService;
 import com.lfm.common.config.AlipayConfig;
 import com.lfm.common.core.redis.RedisCache;
+import com.lfm.common.exception.BaseException;
 import javafx.application.Application;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.concurrent.DelayQueue;
 
 /**
@@ -74,8 +77,10 @@ public class DelayService {
                                     ActPrint print = actPrintService.selectActPrintById(id);
                                     if (print.getStatus() == "2"){ // 就代表还未派送
                                         print.setStatus("5"); //设置为取消订单
+                                        print.setCancelTime(new Date());
                                         // 此时已支付调用退款接口
                                         alipayRefundRequest("R" + print.getPrintId(),"",print.getFee());
+                                        actPrintService.updateActPrint(print);
                                     }
                                 }
                             }
@@ -90,8 +95,10 @@ public class DelayService {
                                     ActPrint print = actPrintService.selectActPrintById(id);
                                     if (print.getStatus() == "3"){ // 就代表还未收货
                                         print.setStatus("5"); //设置为取消订单
+                                        print.setCancelTime(new Date());
                                         // 此时已支付调用退款接口
                                         alipayRefundRequest("R" + print.getPrintId(),"",print.getFee());
+                                        actPrintService.updateActPrint(print);
                                     }
                                 }
                             }
@@ -218,6 +225,7 @@ public class DelayService {
                 strResponse="退款成功";
             }else {
                 strResponse=response.getSubMsg();
+                throw new BaseException("100",strResponse);
             }
         } catch (Exception e) {
             e.printStackTrace();

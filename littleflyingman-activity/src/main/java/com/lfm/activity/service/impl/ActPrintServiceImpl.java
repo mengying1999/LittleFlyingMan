@@ -1,5 +1,6 @@
 package com.lfm.activity.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.lfm.activity.domain.DshOrder;
@@ -102,7 +103,9 @@ public class ActPrintServiceImpl implements IActPrintService
     @Override
     public int updatePrintStatus(ActPrint actPrint) {
         ActPrint temp = actPrintMapper.selectActPrintById(actPrint.getPrintId());
-        if(temp.getStatus() == "1" && actPrint.getStatus() == "2"){
+        if(temp.getStatus() == "1"){
+            actPrint.setPrintTime(new Date());
+            actPrint.setStatus("2");
             int flag = actPrintMapper.updateActPrint(actPrint);
             if (flag == 0){
                 // 接单后，创建一个1天之内没有配送就自动取消订单的定时器
@@ -120,7 +123,9 @@ public class ActPrintServiceImpl implements IActPrintService
     @Override
     public int updateDeliveryStatus(ActPrint actPrint) {
         ActPrint temp = actPrintMapper.selectActPrintById(actPrint.getPrintId());
-        if(temp.getStatus() == "2" && actPrint.getStatus() == "3"){
+        if(temp.getStatus() == "2"){
+            actPrint.setStatus("3");
+            actPrint.setDeliveryTime(new Date());
             int flag = actPrintMapper.updateActPrint(actPrint);
             if (flag == 0){
                 // 配送后，创建一个1天之内没有收货就自动取消订单的定时器
@@ -138,7 +143,9 @@ public class ActPrintServiceImpl implements IActPrintService
     @Override
     public int updateFinishStatus(ActPrint actPrint) {
         ActPrint temp = actPrintMapper.selectActPrintById(actPrint.getPrintId());
-        if(temp.getStatus() == "3" && actPrint.getStatus() == "4"){
+        if(temp.getStatus() == "3"){
+            actPrint.setStatus("4");
+            actPrint.setFinishTime(new Date());
             int flag = actPrintMapper.updateActPrint(actPrint);
         } else {
             return 1;
@@ -149,9 +156,11 @@ public class ActPrintServiceImpl implements IActPrintService
     @Override
     public int updateCancelStatus(ActPrint actPrint) {
         ActPrint temp = actPrintMapper.selectActPrintById(actPrint.getPrintId());
-        if(temp.getStatus() == "1" || temp.getStatus() == "2" || temp.getStatus() == "3"){
+        if(temp.getStatus() == "0" || temp.getStatus() == "1" || temp.getStatus() == "2"){
+            actPrint.setCancelTime(new Date());
+            actPrint.setStatus("5");
             int flag = actPrintMapper.updateActPrint(actPrint);
-            if (flag == 0){
+            if (flag == 0 && temp.getStatus() != "0"){
                 // 调用取消订单的接口
                 delayService.alipayRefundRequest("R" + actPrint.getPrintId(),"",actPrint.getFee());
             }

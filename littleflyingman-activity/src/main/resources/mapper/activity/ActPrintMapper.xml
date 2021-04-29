@@ -45,7 +45,7 @@
             a.address_id,a.address ,a.take_number,a.take_name,
             s.student_id,s.student_name
         from act_print p
-        left join act_address a on a.address_id = p.address_id
+        left join sys_address a on a.address_id = p.address_id
         left join sys_student s on s.student_id = p.student_id
     </sql>
 
