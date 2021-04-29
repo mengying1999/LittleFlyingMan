@@ -103,7 +103,7 @@ public class ActPrintServiceImpl implements IActPrintService
     @Override
     public int updatePrintStatus(ActPrint actPrint) {
         ActPrint temp = actPrintMapper.selectActPrintById(actPrint.getPrintId());
-        if(temp.getStatus() == "1"){
+        if("1".equals(temp.getStatus())){
             actPrint.setPrintTime(new Date());
             actPrint.setStatus("2");
             int flag = actPrintMapper.updateActPrint(actPrint);
@@ -123,7 +123,7 @@ public class ActPrintServiceImpl implements IActPrintService
     @Override
     public int updateDeliveryStatus(ActPrint actPrint) {
         ActPrint temp = actPrintMapper.selectActPrintById(actPrint.getPrintId());
-        if(temp.getStatus() == "2"){
+        if("2".equals(temp.getStatus())){
             actPrint.setStatus("3");
             actPrint.setDeliveryTime(new Date());
             int flag = actPrintMapper.updateActPrint(actPrint);
@@ -143,7 +143,7 @@ public class ActPrintServiceImpl implements IActPrintService
     @Override
     public int updateFinishStatus(ActPrint actPrint) {
         ActPrint temp = actPrintMapper.selectActPrintById(actPrint.getPrintId());
-        if(temp.getStatus() == "3"){
+        if("3".equals(temp.getStatus())){
             actPrint.setStatus("4");
             actPrint.setFinishTime(new Date());
             int flag = actPrintMapper.updateActPrint(actPrint);
@@ -156,11 +156,11 @@ public class ActPrintServiceImpl implements IActPrintService
     @Override
     public int updateCancelStatus(ActPrint actPrint) {
         ActPrint temp = actPrintMapper.selectActPrintById(actPrint.getPrintId());
-        if(temp.getStatus() == "0" || temp.getStatus() == "1" || temp.getStatus() == "2"){
+        if("0".equals(temp.getStatus()) || "1".equals(temp.getStatus()) ||"2".equals(temp.getStatus())){
             actPrint.setCancelTime(new Date());
             actPrint.setStatus("5");
             int flag = actPrintMapper.updateActPrint(actPrint);
-            if (flag == 0 && temp.getStatus() != "0"){
+            if (flag == 0 && !"0".equals(temp.getStatus())){
                 // 调用取消订单的接口
                 delayService.alipayRefundRequest("R" + actPrint.getPrintId(),"",actPrint.getFee());
             }
