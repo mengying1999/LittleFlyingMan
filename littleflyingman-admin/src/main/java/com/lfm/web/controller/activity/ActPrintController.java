@@ -13,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import com.lfm.common.annotation.Log;
 import com.lfm.common.core.controller.BaseController;
@@ -148,6 +149,7 @@ public class ActPrintController extends BaseController
     @PreAuthorize("@ss.hasPermi('activity:print:edit')")
     @Log(title = "取消订单", businessType = BusinessType.UPDATE)
     @PutMapping("editCancelStatus")
+    @Transactional
     public AjaxResult editCancelStatus(@RequestBody ActPrint actPrint)
     {
         return toAjax(actPrintService.updateCancelStatus(actPrint));

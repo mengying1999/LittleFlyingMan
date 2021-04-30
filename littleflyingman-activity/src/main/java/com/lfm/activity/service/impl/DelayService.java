@@ -210,9 +210,7 @@ public class DelayService {
         // 发送请求
         String strResponse = null;
         try {
-            AlipayClient alipayClient = new DefaultAlipayClient
-                    (AlipayConfig.return_url, AlipayConfig.app_id,
-                            AlipayConfig.merchant_private_key,AlipayConfig.sign_type,AlipayConfig.charset,AlipayConfig.alipay_public_key);
+            AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.GETEWAY_URL, AlipayConfig.APP_ID, AlipayConfig.APP_PRIVATE_KEY, AlipayConfig.FORMAT, AlipayConfig.CHARSET, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.SIGN_TYPE);
             AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
             AlipayTradeRefundModel model = new AlipayTradeRefundModel();
             model.setOutTradeNo(out_trade_no);

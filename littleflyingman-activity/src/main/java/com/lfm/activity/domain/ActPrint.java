@@ -110,7 +110,7 @@ public class ActPrint extends BaseEntity
 
     /** 金额 */
     @Excel(name = "金额")
-    private Long fee;
+    private Double fee;
 
     /** 彩印标志(0黑白 1彩印) */
     @Excel(name = "封皮标志(0封皮 1非封皮)")
@@ -276,12 +276,12 @@ public class ActPrint extends BaseEntity
     {
         return coverColor;
     }
-    public void setFee(Long fee)
+    public void setFee(Double fee)
     {
         this.fee = fee;
     }
 
-    public Long getFee()
+    public Double getFee()
     {
         return fee;
     }

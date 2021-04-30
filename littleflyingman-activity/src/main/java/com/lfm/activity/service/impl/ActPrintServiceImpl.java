@@ -107,17 +107,17 @@ public class ActPrintServiceImpl implements IActPrintService
             actPrint.setPrintTime(new Date());
             actPrint.setStatus("2");
             int flag = actPrintMapper.updateActPrint(actPrint);
-            if (flag == 0){
+            if (flag == 1){
                 // 接单后，创建一个1天之内没有配送就自动取消订单的定时器
                 DshOrder dshOrder = new DshOrder("R"+actPrint.getPrintId(),24 * 60 * 60 * 1000,2);
                 delayService.add(dshOrder);
             } else {
-                return 1;
+                return 0;
             }
         } else {
-            return 1;
+            return 0;
         }
-        return 0;
+        return 1;
     }
 
     @Override
@@ -127,17 +127,17 @@ public class ActPrintServiceImpl implements IActPrintService
             actPrint.setStatus("3");
             actPrint.setDeliveryTime(new Date());
             int flag = actPrintMapper.updateActPrint(actPrint);
-            if (flag == 0){
+            if (flag == 1){
                 // 配送后，创建一个1天之内没有收货就自动取消订单的定时器
                 DshOrder dshOrder = new DshOrder("R"+actPrint.getPrintId(),24 * 60 * 60 * 1000,3);
                 delayService.add(dshOrder);
             } else {
-                return 1;
+                return 0;
             }
         } else {
-            return 1;
+            return 0;
         }
-        return 0;
+        return 1;
     }
 
     @Override
@@ -148,9 +148,9 @@ public class ActPrintServiceImpl implements IActPrintService
             actPrint.setFinishTime(new Date());
             int flag = actPrintMapper.updateActPrint(actPrint);
         } else {
-            return 1;
+            return 0;
         }
-        return 0;
+        return 1;
     }
 
     @Override
@@ -159,15 +159,15 @@ public class ActPrintServiceImpl implements IActPrintService
         if("0".equals(temp.getStatus()) || "1".equals(temp.getStatus()) ||"2".equals(temp.getStatus())){
             actPrint.setCancelTime(new Date());
             actPrint.setStatus("5");
-            int flag = actPrintMapper.updateActPrint(actPrint);
-            if (flag == 0 && !"0".equals(temp.getStatus())){
+            if (!"0".equals(temp.getStatus())){
                 // 调用取消订单的接口
-                delayService.alipayRefundRequest("R" + actPrint.getPrintId(),"",actPrint.getFee());
+                delayService.alipayRefundRequest("R" + temp.getPrintId(),"",temp.getFee());
             }
+            int flag = actPrintMapper.updateActPrint(actPrint);
         } else {
-            return 1;
+            return 0;
         }
-        return 0;
+        return 1;
     }
 
 }
