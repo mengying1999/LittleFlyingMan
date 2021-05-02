@@ -1,6 +1,7 @@
-package com.lfm.system.mapper;
+package com.lfm.activity.mapper;
 
-import com.lfm.system.domain.SysFeedback;
+
+import com.lfm.activity.domain.SysFeedback;
 
 import java.util.List;
 

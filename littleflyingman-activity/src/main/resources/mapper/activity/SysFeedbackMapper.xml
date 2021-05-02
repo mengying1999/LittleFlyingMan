@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lfm.activity.mapper.SysFeedbackMapper">
+
+<resultMap type="SysFeedback" id="SysFeedbackResult">
+    <result property="feedbackId"    column="feedback_id"    />
+    <result property="status"    column="status"    />
+    <result property="studentId"    column="student_id"    />
+    <result property="createBy"    column="create_by"    />
+    <result property="createTime"    column="create_time"    />
+    <result property="userManageId"    column="user_manage_id"    />
+    <result property="updateBy"    column="update_by"    />
+    <result property="manageContent"    column="manage_content"    />
+    <result property="updateTime"    column="update_time"    />
+    <result property="orderId"    column="order_id"    />
+    <result property="remark"    column="remark"    />
+    <result property="orderType"    column="order_type"    />
+    <result property="feedbackContent"    column="feedback_content"    />
+    <result property="delFlag"    column="del_flag"    />
+    <result property="manageTime"    column="manage_time"    />
+    <result property="studentName"    column="student_name"/>
+    <association property="userManage" column="user_manage_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
+    <collection  property="sysFeedbackMedias"   javaType="java.util.List"        resultMap="FeedbackMediaResult" />
+</resultMap>
+
+<sql id="selectSysFeedbackVo">
+        select feedback_id, status, student_id, create_by, create_time, user_manage_id, update_by, manage_content, update_time, order_id, remark, order_type, feedback_content, del_flag, manage_time,
+         s.student_id,s.student_name
+         from sys_feedback f
+         left join sys_student s on s.student_id = f.student_id
+    </sql>
+
+<select id="selectSysFeedbackList" parameterType="SysFeedback" resultMap="SysFeedbackResult">
+    <include refid="selectSysFeedbackVo"/>
+    <where>
+        <if test="status != null  and status != ''"> and status = #{status}</if>
+        <if test="studentId != null "> and student_id = #{studentId}</if>
+        <if test="userManageId != null "> and user_manage_id = #{userManageId}</if>
+        <if test="manageContent != null  and manageContent != ''"> and manage_content = #{manageContent}</if>
+        <if test="orderId != null "> and order_id = #{orderId}</if>
+        <if test="orderType != null  and orderType != ''"> and order_type = #{orderType}</if>
+        <if test="feedbackContent != null  and feedbackContent != ''"> and feedback_content = #{feedbackContent}</if>
+        <if test="manageTime != null "> and manage_time = #{manageTime}</if>
+    </where>
+</select>
+
+<select id="selectSysFeedbackById" parameterType="Long" resultMap="SysFeedbackResult">
+    <include refid="selectSysFeedbackVo"/>
+    where feedback_id = #{feedbackId}
+</select>
+
+<insert id="insertSysFeedback" parameterType="SysFeedback" useGeneratedKeys="true" keyProperty="feedbackId">
+    insert into sys_feedback
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="status != null">status,</if>
+        <if test="studentId != null">student_id,</if>
+        <if test="createBy != null">create_by,</if>
+        <if test="createTime != null">create_time,</if>
+        <if test="userManageId != null">user_manage_id,</if>
+        <if test="updateBy != null">update_by,</if>
+        <if test="manageContent != null">manage_content,</if>
+        <if test="updateTime != null">update_time,</if>
+        <if test="orderId != null">order_id,</if>
+        <if test="remark != null">remark,</if>
+        <if test="orderType != null">order_type,</if>
+        <if test="feedbackContent != null">feedback_content,</if>
+        <if test="delFlag != null">del_flag,</if>
+        <if test="manageTime != null">manage_time,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="status != null">#{status},</if>
+        <if test="studentId != null">#{studentId},</if>
+        <if test="createBy != null">#{createBy},</if>
+        <if test="createTime != null">#{createTime},</if>
+        <if test="userManageId != null">#{userManageId},</if>
+        <if test="updateBy != null">#{updateBy},</if>
+        <if test="manageContent != null">#{manageContent},</if>
+        <if test="updateTime != null">#{updateTime},</if>
+        <if test="orderId != null">#{orderId},</if>
+        <if test="remark != null">#{remark},</if>
+        <if test="orderType != null">#{orderType},</if>
+        <if test="feedbackContent != null">#{feedbackContent},</if>
+        <if test="delFlag != null">#{delFlag},</if>
+        <if test="manageTime != null">#{manageTime},</if>
+    </trim>
+</insert>
+
+<update id="updateSysFeedback" parameterType="SysFeedback">
+    update sys_feedback
+    <trim prefix="SET" suffixOverrides=",">
+        <if test="status != null">status = #{status},</if>
+        <if test="studentId != null">student_id = #{studentId},</if>
+        <if test="createBy != null">create_by = #{createBy},</if>
+        <if test="createTime != null">create_time = #{createTime},</if>
+        <if test="userManageId != null">user_manage_id = #{userManageId},</if>
+        <if test="updateBy != null">update_by = #{updateBy},</if>
+        <if test="manageContent != null">manage_content = #{manageContent},</if>
+        <if test="updateTime != null">update_time = #{updateTime},</if>
+        <if test="orderId != null">order_id = #{orderId},</if>
+        <if test="remark != null">remark = #{remark},</if>
+        <if test="orderType != null">order_type = #{orderType},</if>
+        <if test="feedbackContent != null">feedback_content = #{feedbackContent},</if>
+        <if test="delFlag != null">del_flag = #{delFlag},</if>
+        <if test="manageTime != null">manage_time = #{manageTime},</if>
+    </trim>
+    where feedback_id = #{feedbackId}
+</update>
+
+<delete id="deleteSysFeedbackById" parameterType="Long">
+        delete from sys_feedback where feedback_id = #{feedbackId}
+    </delete>
+
+<delete id="deleteSysFeedbackByIds" parameterType="String">
+    delete from sys_feedback where feedback_id in
+    <foreach item="feedbackId" collection="array" open="(" separator="," close=")">
+        #{feedbackId}
+    </foreach>
+</delete>
+
+</mapper>

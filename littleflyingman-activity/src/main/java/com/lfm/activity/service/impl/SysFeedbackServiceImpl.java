@@ -1,10 +1,11 @@
-package com.lfm.system.service.impl;
+package com.lfm.activity.service.impl;
 
+import com.lfm.activity.domain.SysFeedback;
+import com.lfm.activity.mapper.SysFeedbackMapper;
+import com.lfm.activity.service.*;
 import com.lfm.common.utils.DateUtils;
-import com.lfm.system.domain.SysFeedback;
-import com.lfm.system.mapper.SysDictDataMapper;
-import com.lfm.system.mapper.SysFeedbackMapper;
-import com.lfm.system.service.ISysFeedbackService;
+
+import com.lfm.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,14 @@ public class SysFeedbackServiceImpl implements ISysFeedbackService
     @Autowired
     private SysFeedbackMapper sysFeedbackMapper;
 
+    @Autowired
+    private IActPrintService actPrintService;
+    @Autowired
+    private IPickUpService iPickUpService;
+    @Autowired
+    private IWashingService iWashingService;
+    @Autowired
+    private IActTaskService iActTaskService;
     /**
      * 查询反馈
      *
@@ -30,7 +39,24 @@ public class SysFeedbackServiceImpl implements ISysFeedbackService
     @Override
     public SysFeedback selectSysFeedbackById(Long feedbackId)
     {
-        return sysFeedbackMapper.selectSysFeedbackById(feedbackId);
+        SysFeedback sysFeedback = sysFeedbackMapper.selectSysFeedbackById(feedbackId);
+        if (StringUtils.isNotEmpty(sysFeedback.getOrderType()) && sysFeedback.getOrderId() != 0){
+            String orderType = sysFeedback.getOrderType();
+            // （0打印 1洗衣 2取件 3任务）
+            if ("0".equals(orderType)){
+                sysFeedback.setActPrint(actPrintService.selectActPrintById(sysFeedback.getOrderId()));
+            }
+            if ("1".equals(orderType)){
+                sysFeedback.setWashing(iWashingService.selectWashingById(sysFeedback.getOrderId()));
+            }
+            if ("2".equals(orderType)){
+                sysFeedback.setPickUp(iPickUpService.selectPickUpById(sysFeedback.getOrderId()));
+            }
+            if ("3".equals(orderType)){
+                sysFeedback.setActTask(iActTaskService.selectActTaskById(sysFeedback.getOrderId()));
+            }
+        }
+        return sysFeedback;
     }
 
     /**

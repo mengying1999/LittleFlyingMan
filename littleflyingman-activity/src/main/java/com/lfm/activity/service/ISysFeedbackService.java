@@ -1,7 +1,8 @@
-package com.lfm.system.service;
+package com.lfm.activity.service;
 
-import com.lfm.common.core.domain.entity.SysDictType;
-import com.lfm.system.domain.SysFeedback;
+
+
+import com.lfm.activity.domain.SysFeedback;
 
 import java.util.List;
 
