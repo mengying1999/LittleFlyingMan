@@ -5,15 +5,15 @@ import com.lfm.activity.domain.ActTask;
 
 /**
  * 任务信息Mapper接口
- *
+ * 
  * @author zjz
- * @date 2020-11-09
+ * @date 2021-05-02
  */
-public interface ActTaskMapper
+public interface ActTaskMapper 
 {
     /**
      * 查询任务信息
-     *
+     * 
      * @param taskId 任务信息ID
      * @return 任务信息
      */
@@ -21,7 +21,7 @@ public interface ActTaskMapper
 
     /**
      * 查询任务信息列表
-     *
+     * 
      * @param actTask 任务信息
      * @return 任务信息集合
      */
@@ -29,7 +29,7 @@ public interface ActTaskMapper
 
     /**
      * 新增任务信息
-     *
+     * 
      * @param actTask 任务信息
      * @return 结果
      */
@@ -37,7 +37,7 @@ public interface ActTaskMapper
 
     /**
      * 修改任务信息
-     *
+     * 
      * @param actTask 任务信息
      * @return 结果
      */
@@ -45,7 +45,7 @@ public interface ActTaskMapper
 
     /**
      * 删除任务信息
-     *
+     * 
      * @param taskId 任务信息ID
      * @return 结果
      */
@@ -53,7 +53,7 @@ public interface ActTaskMapper
 
     /**
      * 批量删除任务信息
-     *
+     * 
      * @param taskIds 需要删除的数据ID
      * @return 结果
      */

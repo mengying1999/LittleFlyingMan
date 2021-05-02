@@ -1,6 +1,8 @@
 package com.lfm.web.controller.activity;
 
 import java.util.List;
+
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +24,9 @@ import com.lfm.common.core.page.TableDataInfo;
 
 /**
  * 任务信息Controller
- *
+ * 
  * @author zjz
- * @date 2020-11-09
+ * @date 2021-05-02
  */
 @RestController
 @RequestMapping("/activity/task")
@@ -91,11 +93,37 @@ public class ActTaskController extends BaseController
     }
 
     /**
+     * 同意
+     */
+    @ApiOperation("同意")
+    @PreAuthorize("@ss.hasPermi('activity:up:edit')")
+    @Log(title = "同意", businessType = BusinessType.UPDATE)
+    @PutMapping("agree")
+    public AjaxResult agree(@RequestBody ActTask actTask)
+    {
+        return toAjax(actTaskService.updateAgree(actTask));
+    }
+
+
+    /**
+     * 同意
+     */
+    @ApiOperation("取消")
+    @PreAuthorize("@ss.hasPermi('activity:up:edit')")
+    @Log(title = "取消", businessType = BusinessType.UPDATE)
+    @PutMapping("cancel")
+    public AjaxResult cancel(@RequestBody ActTask actTask)
+    {
+        return toAjax(actTaskService.updateCancel(actTask));
+    }
+
+
+    /**
      * 删除任务信息
      */
     @PreAuthorize("@ss.hasPermi('activity:task:remove')")
     @Log(title = "任务信息", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{taskIds}")
+	@DeleteMapping("/{taskIds}")
     public AjaxResult remove(@PathVariable Long[] taskIds)
     {
         return toAjax(actTaskService.deleteActTaskByIds(taskIds));

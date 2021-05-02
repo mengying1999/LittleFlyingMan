@@ -7,8 +7,12 @@ import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import com.lfm.activity.domain.ActPrint;
+import com.lfm.activity.domain.ActTask;
 import com.lfm.activity.domain.DshOrder;
+import com.lfm.activity.domain.Washing;
 import com.lfm.activity.service.IActPrintService;
+import com.lfm.activity.service.IActTaskService;
+import com.lfm.activity.service.IWashingService;
 import com.lfm.common.config.AlipayConfig;
 import com.lfm.common.core.redis.RedisCache;
 import com.lfm.common.exception.BaseException;
@@ -43,7 +47,11 @@ public class DelayService {
     private IActPrintService actPrintService;
 
     @Autowired
-    private DelayService delayService;
+    private IWashingService washingService;
+
+    @Autowired
+    private IActTaskService actTaskService;
+
     public static interface OnDelayedListener{
         public void onDelayedArrived(DshOrder order);
     }
@@ -75,7 +83,7 @@ public class DelayService {
                                 if (p == "R"){
                                     //打印订单
                                     ActPrint print = actPrintService.selectActPrintById(id);
-                                    if (print.getStatus() == "2"){ // 就代表还未派送
+                                    if ("2".equals(print.getStatus())){ // 就代表还未派送
                                         print.setStatus("5"); //设置为取消订单
                                         print.setCancelTime(new Date());
                                         // 此时已支付调用退款接口
@@ -85,7 +93,7 @@ public class DelayService {
                                 }
                             }
                         }
-                        if(order.getType() == 3){   //如果是类型为3,24小时未配送成功取消订单
+                        if(order.getType() == 3){   //如果是类型为3,24小时未完成取消订单
                             log.info(order.getOrderNo());
                             if (!order.getOrderNo().isEmpty()){
                                 String p = order.getOrderNo().substring(0,1);
@@ -93,12 +101,30 @@ public class DelayService {
                                 if (p == "R"){
                                     //打印订单
                                     ActPrint print = actPrintService.selectActPrintById(id);
-                                    if (print.getStatus() == "3"){ // 就代表还未收货
+                                    if ("3".equals(print.getStatus())){ // 就代表还未收货
                                         print.setStatus("5"); //设置为取消订单
                                         print.setCancelTime(new Date());
                                         // 此时已支付调用退款接口
                                         alipayRefundRequest("R" + print.getPrintId(),"",print.getFee());
                                         actPrintService.updateActPrint(print);
+                                    }
+                                }
+                            }
+                        }
+                        if(order.getType() == 5){   //如果是类型为5,24小时未接衣就取消订单
+                            log.info(order.getOrderNo());
+                            if (!order.getOrderNo().isEmpty()){
+                                String p = order.getOrderNo().substring(0,1);
+                                Long id = Long.parseLong(order.getOrderNo().substring(1));
+                                if (p == "W"){
+                                    //打印订单
+                                    Washing washing = washingService.selectWashingById(id);
+                                    if ("2".equals(washing.getStatus())){ // 就代表还未接单
+                                        washing.setStatus("7"); //设置为取消订单
+                                        washing.setCancelTime(new Date());
+                                        // 此时已支付调用退款接口
+                                        alipayRefundRequest("W" + washing.getWashingId(),"",washing.getFee());
+                                        washingService.updateWashing(washing);
                                     }
                                 }
                             }

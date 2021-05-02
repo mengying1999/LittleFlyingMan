@@ -1,7 +1,8 @@
 package com.lfm.activity.mapper;
 
-import java.util.List;
 import com.lfm.activity.domain.ActAddress;
+
+import java.util.List;
 
 /**
  * 地址Mapper接口

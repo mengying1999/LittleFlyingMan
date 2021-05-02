@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lfm.activity.mapper.WashingMapper">
+    
+    <resultMap type="Washing" id="WashingResult">
+        <result property="washingId"    column="washing_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="addressId"    column="address_id"    />
+        <result property="washType"    column="wash_type"    />
+        <result property="clothesType"    column="clothes_type"    />
+        <result property="clothesNumber"    column="clothes_number"    />
+        <result property="fee"    column="fee"    />
+        <result property="studentRemark"    column="student_remark"    />
+        <result property="status"    column="status"    />
+        <result property="userTakeId"    column="user_take_id"    />
+        <result property="userFetchId"    column="user_fetch_id"    />
+        <result property="userDeliveryId"    column="user_delivery_id"    />
+        <result property="userWashingId"    column="user_washing_id"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="takeTime"    column="take_time"    />
+        <result property="fetchTime"    column="fetch_time"    />
+        <result property="washingTime"    column="washing_time"    />
+        <result property="deliveryTime"    column="delivery_time"    />
+        <result property="finishTime"    column="finish_time"    />
+        <result property="cancelTime"    column="cancel_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="address"    column="address"    />
+        <result property="takeNumber"    column="take_number"    />
+        <result property="takeName"    column="take_name"    />
+        <result property="studentName"    column="student_name"/>
+        <association property="userTake" column="user_take_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
+        <association property="userFetch" column="user_fetch_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
+        <association property="userDelivery" column="user_delivery_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
+        <association property="userWashing" column="user_washing_id" select="com.lfm.system.mapper.SysUserMapper.selectUserById"></association>
+    </resultMap>
+
+    <sql id="selectWashingVo">
+        select washing_id, student_id, address_id, wash_type, clothes_type, clothes_number, fee, student_remark, status, user_take_id, user_fetch_id, user_delivery_id, user_washing_id, pay_time, take_time, fetch_time, washing_time, delivery_time, finish_time, cancel_time, create_by, create_time, update_by, update_time, remark, del_flag,
+            a.address_id,a.address ,a.take_number,a.take_name,
+            s.student_id,s.student_name
+        from washing w
+        left join sys_address a on a.address_id = w.address_id
+        left join sys_student s on s.student_id = w.student_id
+    </sql>
+
+    <select id="selectWashingList" parameterType="Washing" resultMap="WashingResult">
+        <include refid="selectWashingVo"/>
+        <where>  
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="addressId != null "> and address_id = #{addressId}</if>
+            <if test="washType != null  and washType != ''"> and wash_type = #{washType}</if>
+            <if test="clothesType != null  and clothesType != ''"> and clothes_type = #{clothesType}</if>
+            <if test="clothesNumber != null "> and clothes_number = #{clothesNumber}</if>
+            <if test="fee != null "> and fee = #{fee}</if>
+            <if test="studentRemark != null  and studentRemark != ''"> and student_remark = #{studentRemark}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="userTakeId != null "> and user_take_id = #{userTakeId}</if>
+            <if test="userFetchId != null "> and user_fetch_id = #{userFetchId}</if>
+            <if test="userDeliveryId != null "> and user_delivery_id = #{userDeliveryId}</if>
+            <if test="userWashingId != null "> and user_washing_id = #{userWashingId}</if>
+            <if test="payTime != null "> and pay_time = #{payTime}</if>
+            <if test="takeTime != null "> and take_time = #{takeTime}</if>
+            <if test="fetchTime != null "> and fetch_time = #{fetchTime}</if>
+            <if test="washingTime != null "> and washing_time = #{washingTime}</if>
+            <if test="deliveryTime != null "> and delivery_time = #{deliveryTime}</if>
+            <if test="finishTime != null "> and finish_time = #{finishTime}</if>
+            <if test="cancelTime != null "> and cancel_time = #{cancelTime}</if>
+            <if test="address != null">
+                and a.address like concat('%', #{address}, '%')
+            </if>
+            <if test="takeNumber != null">
+                and a.takeNumber like concat('%', #{takeNumber}, '%')
+            </if>
+            <if test="takeName != null">
+                and a.takeName like concat('%', #{takeName}, '%')
+            </if>
+            <if test="studentName != null">
+                and s.studentName like concat('%', #{studentName}, '%')
+            </if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(p.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+            </if>
+            <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(p.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectWashingById" parameterType="Long" resultMap="WashingResult">
+        <include refid="selectWashingVo"/>
+        where washing_id = #{washingId}
+    </select>
+        
+    <insert id="insertWashing" parameterType="Washing" useGeneratedKeys="true" keyProperty="washingId">
+        insert into washing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="addressId != null">address_id,</if>
+            <if test="washType != null and washType != ''">wash_type,</if>
+            <if test="clothesType != null and clothesType != ''">clothes_type,</if>
+            <if test="clothesNumber != null">clothes_number,</if>
+            <if test="fee != null">fee,</if>
+            <if test="studentRemark != null">student_remark,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="userTakeId != null">user_take_id,</if>
+            <if test="userFetchId != null">user_fetch_id,</if>
+            <if test="userDeliveryId != null">user_delivery_id,</if>
+            <if test="userWashingId != null">user_washing_id,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="takeTime != null">take_time,</if>
+            <if test="fetchTime != null">fetch_time,</if>
+            <if test="washingTime != null">washing_time,</if>
+            <if test="deliveryTime != null">delivery_time,</if>
+            <if test="finishTime != null">finish_time,</if>
+            <if test="cancelTime != null">cancel_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null and delFlag != ''">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="addressId != null">#{addressId},</if>
+            <if test="washType != null and washType != ''">#{washType},</if>
+            <if test="clothesType != null and clothesType != ''">#{clothesType},</if>
+            <if test="clothesNumber != null">#{clothesNumber},</if>
+            <if test="fee != null">#{fee},</if>
+            <if test="studentRemark != null">#{studentRemark},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="userTakeId != null">#{userTakeId},</if>
+            <if test="userFetchId != null">#{userFetchId},</if>
+            <if test="userDeliveryId != null">#{userDeliveryId},</if>
+            <if test="userWashingId != null">#{userWashingId},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="takeTime != null">#{takeTime},</if>
+            <if test="fetchTime != null">#{fetchTime},</if>
+            <if test="washingTime != null">#{washingTime},</if>
+            <if test="deliveryTime != null">#{deliveryTime},</if>
+            <if test="finishTime != null">#{finishTime},</if>
+            <if test="cancelTime != null">#{cancelTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWashing" parameterType="Washing">
+        update washing
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="addressId != null">address_id = #{addressId},</if>
+            <if test="washType != null and washType != ''">wash_type = #{washType},</if>
+            <if test="clothesType != null and clothesType != ''">clothes_type = #{clothesType},</if>
+            <if test="clothesNumber != null">clothes_number = #{clothesNumber},</if>
+            <if test="fee != null">fee = #{fee},</if>
+            <if test="studentRemark != null">student_remark = #{studentRemark},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="userTakeId != null">user_take_id = #{userTakeId},</if>
+            <if test="userFetchId != null">user_fetch_id = #{userFetchId},</if>
+            <if test="userDeliveryId != null">user_delivery_id = #{userDeliveryId},</if>
+            <if test="userWashingId != null">user_washing_id = #{userWashingId},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="takeTime != null">take_time = #{takeTime},</if>
+            <if test="fetchTime != null">fetch_time = #{fetchTime},</if>
+            <if test="washingTime != null">washing_time = #{washingTime},</if>
+            <if test="deliveryTime != null">delivery_time = #{deliveryTime},</if>
+            <if test="finishTime != null">finish_time = #{finishTime},</if>
+            <if test="cancelTime != null">cancel_time = #{cancelTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+        </trim>
+        where washing_id = #{washingId}
+    </update>
+
+    <delete id="deleteWashingById" parameterType="Long">
+        delete from washing where washing_id = #{washingId}
+    </delete>
+
+    <delete id="deleteWashingByIds" parameterType="String">
+        delete from washing where washing_id in 
+        <foreach item="washingId" collection="array" open="(" separator="," close=")">
+            #{washingId}
+        </foreach>
+    </delete>
+    
+</mapper>
