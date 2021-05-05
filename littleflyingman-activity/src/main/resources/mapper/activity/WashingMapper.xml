@@ -53,25 +53,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectWashingList" parameterType="Washing" resultMap="WashingResult">
         <include refid="selectWashingVo"/>
         <where>  
-            <if test="studentId != null "> and student_id = #{studentId}</if>
-            <if test="addressId != null "> and address_id = #{addressId}</if>
-            <if test="washType != null  and washType != ''"> and wash_type = #{washType}</if>
-            <if test="clothesType != null  and clothesType != ''"> and clothes_type = #{clothesType}</if>
-            <if test="clothesNumber != null "> and clothes_number = #{clothesNumber}</if>
-            <if test="fee != null "> and fee = #{fee}</if>
-            <if test="studentRemark != null  and studentRemark != ''"> and student_remark = #{studentRemark}</if>
-            <if test="status != null  and status != ''"> and status = #{status}</if>
-            <if test="userTakeId != null "> and user_take_id = #{userTakeId}</if>
-            <if test="userFetchId != null "> and user_fetch_id = #{userFetchId}</if>
-            <if test="userDeliveryId != null "> and user_delivery_id = #{userDeliveryId}</if>
-            <if test="userWashingId != null "> and user_washing_id = #{userWashingId}</if>
-            <if test="payTime != null "> and pay_time = #{payTime}</if>
-            <if test="takeTime != null "> and take_time = #{takeTime}</if>
-            <if test="fetchTime != null "> and fetch_time = #{fetchTime}</if>
-            <if test="washingTime != null "> and washing_time = #{washingTime}</if>
-            <if test="deliveryTime != null "> and delivery_time = #{deliveryTime}</if>
-            <if test="finishTime != null "> and finish_time = #{finishTime}</if>
-            <if test="cancelTime != null "> and cancel_time = #{cancelTime}</if>
+            <if test="studentId != null "> and w.student_id = #{studentId}</if>
+            <if test="addressId != null "> and w.address_id = #{addressId}</if>
+            <if test="washType != null  and washType != ''"> and w.wash_type = #{washType}</if>
+            <if test="clothesType != null  and clothesType != ''"> and w.clothes_type = #{clothesType}</if>
+            <if test="clothesNumber != null "> and w.clothes_number = #{clothesNumber}</if>
+            <if test="fee != null "> and w.fee = #{fee}</if>
+            <if test="studentRemark != null  and studentRemark != ''"> and w.student_remark = #{studentRemark}</if>
+            <if test="status != null  and status != ''"> and w.status = #{status}</if>
+            <if test="userTakeId != null "> and w.user_take_id = #{userTakeId}</if>
+            <if test="userFetchId != null "> and w.user_fetch_id = #{userFetchId}</if>
+            <if test="userDeliveryId != null "> and w.user_delivery_id = #{userDeliveryId}</if>
+            <if test="userWashingId != null "> and w.user_washing_id = #{userWashingId}</if>
+            <if test="payTime != null "> and w.pay_time = #{payTime}</if>
+            <if test="takeTime != null "> and w.take_time = #{takeTime}</if>
+            <if test="fetchTime != null "> and w.fetch_time = #{fetchTime}</if>
+            <if test="washingTime != null "> and w.washing_time = #{washingTime}</if>
+            <if test="deliveryTime != null "> and w.delivery_time = #{deliveryTime}</if>
+            <if test="finishTime != null "> and w.finish_time = #{finishTime}</if>
+            <if test="cancelTime != null "> and w.cancel_time = #{cancelTime}</if>
             <if test="address != null">
                 and a.address like concat('%', #{address}, '%')
             </if>

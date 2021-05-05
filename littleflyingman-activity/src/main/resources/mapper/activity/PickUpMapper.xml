@@ -45,20 +45,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectPickUpList" parameterType="PickUp" resultMap="PickUpResult">
         <include refid="selectPickUpVo"/>
         <where>  
-            <if test="studentId != null "> and student_id = #{studentId}</if>
-            <if test="takeCode != null  and takeCode != ''"> and take_code = #{takeCode}</if>
-            <if test="takeName != null  and takeName != ''"> and take_name like concat('%', #{takeName}, '%')</if>
-            <if test="address != null  and address != ''"> and address = #{address}</if>
-            <if test="status != null  and status != ''"> and status = #{status}</if>
-            <if test="takePhone != null  and takePhone != ''"> and take_phone = #{takePhone}</if>
-            <if test="userPickId != null "> and user_pick_id = #{userPickId}</if>
-            <if test="studentRemark != null  and studentRemark != ''"> and student_remark = #{studentRemark}</if>
-            <if test="addressId != null "> and address_id = #{addressId}</if>
-            <if test="fee != null "> and fee = #{fee}</if>
-            <if test="payTime != null "> and pay_time = #{payTime}</if>
-            <if test="deliveryTime != null "> and delivery_time = #{deliveryTime}</if>
-            <if test="finishTime != null "> and finish_time = #{finishTime}</if>
-            <if test="cancelTime != null "> and cancel_time = #{cancelTime}</if>
+            <if test="studentId != null "> and p.student_id = #{studentId}</if>
+            <if test="takeCode != null  and takeCode != ''"> and p.take_code = #{takeCode}</if>
+            <if test="takeName != null  and takeName != ''"> and p.take_name like concat('%', #{takeName}, '%')</if>
+            <if test="address != null  and address != ''"> and p.address = #{address}</if>
+            <if test="status != null  and status != ''"> and p.status = #{status}</if>
+            <if test="takePhone != null  and takePhone != ''"> and p.take_phone = #{takePhone}</if>
+            <if test="userPickId != null "> and p.user_pick_id = #{userPickId}</if>
+            <if test="studentRemark != null  and studentRemark != ''"> and p.student_remark = #{studentRemark}</if>
+            <if test="addressId != null "> and p.address_id = #{addressId}</if>
+            <if test="fee != null "> and p.fee = #{fee}</if>
+            <if test="payTime != null "> and p.pay_time = #{payTime}</if>
+            <if test="deliveryTime != null "> and p.delivery_time = #{deliveryTime}</if>
+            <if test="finishTime != null "> and p.finish_time = #{finishTime}</if>
+            <if test="cancelTime != null "> and p.cancel_time = #{cancelTime}</if>
         </where>
     </select>
     
