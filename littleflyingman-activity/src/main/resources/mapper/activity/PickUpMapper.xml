@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectPickUpVo">
-        select pick_up_id, p.student_id, take_code, take_name, address, status, take_phone, user_pick_id, student_remark, p.address_id, fee, pay_time, delivery_time, finish_time, cancel_time, create_by, create_time, update_by, update_time, remark, del_flag,
+        select  p.pick_up_id,  p.student_id, p.take_code, p.take_name, p.address, p.status, p.take_phone, p.user_pick_id, p.student_remark, p.address_id, p.fee, p.pay_time, p.delivery_time, p.finish_time, p.cancel_time, p.create_by, p.create_time, p.update_by, p.update_time, p.remark, p.del_flag,
             a.address_id,a.address d_address,a.take_number d_take_number,a.take_name d_take_name,
             s.student_id,s.student_name
         from pick_up p
