@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectWashingVo">
-        select washing_id, student_id, address_id, wash_type, clothes_type, clothes_number, fee, student_remark, status, user_take_id, user_fetch_id, user_delivery_id, user_washing_id, pay_time, take_time, fetch_time, washing_time, delivery_time, finish_time, cancel_time, create_by, create_time, update_by, update_time, remark, del_flag,
+        select washing_id, w.student_id, w.address_id, wash_type, clothes_type, clothes_number, fee, student_remark, status, user_take_id, user_fetch_id, user_delivery_id, user_washing_id, pay_time, take_time, fetch_time, washing_time, delivery_time, finish_time, cancel_time, create_by, create_time, update_by, update_time, remark, del_flag,
             a.address_id,a.address ,a.take_number,a.take_name,
             s.student_id,s.student_name
         from washing w
