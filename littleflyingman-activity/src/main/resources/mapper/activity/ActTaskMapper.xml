@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectActTaskVo">
-        select task_id, student_send_id, student_realize_id, status, task_describe, fee, address_id, create_by, create_time, update_by, update_time, remark, task_title, user_check_id, check_content, del_flag, cancel_time, pay_time, take_time, finish_time, check_time,
+        select t.task_id, t.student_send_id, t.student_realize_id, t.status, t.task_describe, t.fee, t.address_id, t.create_by, t.create_time, t.update_by, t.update_time, t.remark, t.task_title, t.user_check_id, t.check_content, t.del_flag, t.cancel_time, t.pay_time, t.take_time, t.finish_time, t.check_time,
             a.address_id,a.address ,a.take_number,a.take_name,
             s1.student_name  student_send_name,
             s2.student_name student_realize_name
@@ -48,20 +48,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectActTaskList" parameterType="ActTask" resultMap="ActTaskResult">
         <include refid="selectActTaskVo"/>
         <where>  
-            <if test="studentSendId != null "> and student_send_id = #{studentSendId}</if>
-            <if test="studentRealizeId != null "> and student_realize_id = #{studentRealizeId}</if>
-            <if test="status != null  and status != ''"> and status = #{status}</if>
-            <if test="taskDescribe != null  and taskDescribe != ''"> and task_describe = #{taskDescribe}</if>
-            <if test="fee != null "> and fee = #{fee}</if>
-            <if test="addressId != null "> and address_id = #{addressId}</if>
-            <if test="taskTitle != null  and taskTitle != ''"> and task_title = #{taskTitle}</if>
-            <if test="userCheckId != null "> and user_check_id = #{userCheckId}</if>
-            <if test="checkContent != null  and checkContent != ''"> and check_content = #{checkContent}</if>
-            <if test="cancelTime != null "> and cancel_time = #{cancelTime}</if>
-            <if test="payTime != null "> and pay_time = #{payTime}</if>
-            <if test="takeTime != null "> and take_time = #{takeTime}</if>
-            <if test="finishTime != null "> and finish_time = #{finishTime}</if>
-            <if test="checkTime != null "> and check_time = #{checkTime}</if>
+            <if test="studentSendId != null "> and t.student_send_id = #{studentSendId}</if>
+            <if test="studentRealizeId != null "> and t.student_realize_id = #{studentRealizeId}</if>
+            <if test="status != null  and status != ''"> and t.status = #{status}</if>
+            <if test="taskDescribe != null  and taskDescribe != ''"> and t.task_describe = #{taskDescribe}</if>
+            <if test="fee != null "> and t.fee = #{fee}</if>
+            <if test="addressId != null "> and t.address_id = #{addressId}</if>
+            <if test="taskTitle != null  and taskTitle != ''"> and t.task_title = #{taskTitle}</if>
+            <if test="userCheckId != null "> and t.user_check_id = #{userCheckId}</if>
+            <if test="checkContent != null  and checkContent != ''"> and t.check_content = #{checkContent}</if>
+            <if test="cancelTime != null "> and t.cancel_time = #{cancelTime}</if>
+            <if test="payTime != null "> and t.pay_time = #{payTime}</if>
+            <if test="takeTime != null "> and t.take_time = #{takeTime}</if>
+            <if test="finishTime != null "> and t.finish_time = #{finishTime}</if>
+            <if test="checkTime != null "> and t.check_time = #{checkTime}</if>
         </where>
     </select>
     
