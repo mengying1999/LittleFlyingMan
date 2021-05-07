@@ -33,7 +33,9 @@
 <sql id="selectSysFeedbackVo">
         select f.feedback_id , f.status, f.student_id, f.create_by, f.create_time, f.user_manage_id, f.update_by, f.manage_content, f.update_time, f.order_id, f.remark, f.order_type, f.feedback_content, f.del_flag, f.manage_time,
          s.student_id,s.student_name
-         from sys_feedback f
+         m.feedback_media_id, m.feedback_media_url,m.feedback_id
+        from sys_feedback f
+              left join sys_feedback_media m on m.feedback_id = f.feedback_id
          left join sys_student s on s.student_id = f.student_id
     </sql>
 
