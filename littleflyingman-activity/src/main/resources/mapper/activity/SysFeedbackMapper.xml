@@ -32,7 +32,7 @@
 </resultMap>
 <sql id="selectSysFeedbackVo">
         select f.feedback_id , f.status, f.student_id, f.create_by, f.create_time, f.user_manage_id, f.update_by, f.manage_content, f.update_time, f.order_id, f.remark, f.order_type, f.feedback_content, f.del_flag, f.manage_time,
-         s.student_id,s.student_name
+         s.student_id,s.student_name,
          m.feedback_media_id, m.feedback_media_url,m.feedback_id
         from sys_feedback f
               left join sys_feedback_media m on m.feedback_id = f.feedback_id
@@ -55,7 +55,7 @@
 
 <select id="selectSysFeedbackById" parameterType="Long" resultMap="SysFeedbackResult">
     <include refid="selectSysFeedbackVo"/>
-    where feedback_id = #{feedbackId}
+    where f.feedback_id = #{feedbackId}
 </select>
 
 <insert id="insertSysFeedback" parameterType="SysFeedback" useGeneratedKeys="true" keyProperty="feedbackId">
