@@ -25,6 +25,11 @@
     <collection  property="sysFeedbackMedias"   javaType="java.util.List"        resultMap="FeedbackMediaResult" />
 </resultMap>
 
+<resultMap type="SysFeedbackMedia" id="FeedbackMediaResult">
+    <id property="feedbackMediaId" column="feedback_media_id"/>
+    <result property="feedbackMediaUrl" column="feedback_media_url"/>
+    <result property="feedbackId" column="feedback_id"/>
+</resultMap>
 <sql id="selectSysFeedbackVo">
         select f.feedback_id , f.status, f.student_id, f.create_by, f.create_time, f.user_manage_id, f.update_by, f.manage_content, f.update_time, f.order_id, f.remark, f.order_type, f.feedback_content, f.del_flag, f.manage_time,
          s.student_id,s.student_name
