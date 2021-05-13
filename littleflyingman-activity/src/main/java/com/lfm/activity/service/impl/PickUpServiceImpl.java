@@ -120,11 +120,14 @@ public class PickUpServiceImpl implements IPickUpService
         if("0".equals(temp.getStatus()) || "1".equals(temp.getStatus())){
             pickUp.setCancelTime(new Date());
             pickUp.setStatus("4");
+            int flag = pickUpMapper.updatePickUp(pickUp);
+            if (flag == 0){
+                return 0;
+            }
             if (!"0".equals(temp.getStatus())){
                 // 调用取消订单的接口
                 delayService.alipayRefundRequest("P" + temp.getPickUpId(),"",temp.getFee());
             }
-            int flag = pickUpMapper.updatePickUp(pickUp);
         } else {
             return 0;
         }
